@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34B6D09421A8C5BF00607621 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6D09321A8C5BF00607621 /* ViewController.swift */; };
 		34D5D26421A35BFD001D7EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5D26321A35BFD001D7EE3 /* AppDelegate.swift */; };
-		34D5D26621A35BFD001D7EE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5D26521A35BFD001D7EE3 /* ViewController.swift */; };
 		34D5D26921A35BFD001D7EE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D5D26721A35BFD001D7EE3 /* Main.storyboard */; };
 		34D5D26B21A35C01001D7EE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34D5D26A21A35C01001D7EE3 /* Assets.xcassets */; };
 		34D5D26E21A35C01001D7EE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D5D26C21A35C01001D7EE3 /* LaunchScreen.storyboard */; };
@@ -17,9 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34B6D09321A8C5BF00607621 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		34D5D26021A35BFD001D7EE3 /* notyourbookshelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notyourbookshelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34D5D26321A35BFD001D7EE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		34D5D26521A35BFD001D7EE3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		34D5D26821A35BFD001D7EE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		34D5D26A21A35C01001D7EE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34D5D26D21A35C01001D7EE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				34D5D26321A35BFD001D7EE3 /* AppDelegate.swift */,
-				34D5D26521A35BFD001D7EE3 /* ViewController.swift */,
+				34B6D09321A8C5BF00607621 /* ViewController.swift */,
 				34D5D26721A35BFD001D7EE3 /* Main.storyboard */,
 				34D5D26A21A35C01001D7EE3 /* Assets.xcassets */,
 				34D5D26C21A35C01001D7EE3 /* LaunchScreen.storyboard */,
@@ -192,14 +192,30 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-notyourbookshelf/Pods-notyourbookshelf-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,7 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34D5D26621A35BFD001D7EE3 /* ViewController.swift in Sources */,
+				34B6D09421A8C5BF00607621 /* ViewController.swift in Sources */,
 				34D5D26421A35BFD001D7EE3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
