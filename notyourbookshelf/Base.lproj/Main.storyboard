@@ -69,9 +69,23 @@
                                 <state key="normal" title="Button" image="Barcode Button"/>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MJv-Nc-BuB">
-                                <rect key="frame" x="44" y="266" width="286" height="310"/>
+                                <rect key="frame" x="44" y="275" width="286" height="164"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="e2P-3d-Nxg">
+                                        <rect key="frame" x="0.0" y="28" width="286" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e2P-3d-Nxg" id="B1b-qz-dLT">
+                                            <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Q57-N1-vac"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Efs-FQ-Oya"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -80,6 +94,7 @@
                     <connections>
                         <outlet property="isbnSearchButton" destination="Cxg-Nj-AGg" id="eH5-nr-KZH"/>
                         <outlet property="scanButton" destination="uH4-bI-qvA" id="oz6-P5-uMH"/>
+                        <outlet property="tableView" destination="MJv-Nc-BuB" id="906-bD-FqP"/>
                         <outlet property="textField" destination="WfP-Tl-cnP" id="fgD-Wi-lC4"/>
                         <outlet property="titleSearchButton" destination="3nA-dU-rrw" id="Hc6-9S-qld"/>
                     </connections>
