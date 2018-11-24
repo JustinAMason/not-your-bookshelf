@@ -1,4 +1,5 @@
 PODS:
+  - BarcodeScanner (4.1.3)
   - BoringSSL (10.0.6):
     - BoringSSL/Implementation (= 10.0.6)
     - BoringSSL/Interface (= 10.0.6)
@@ -108,11 +109,13 @@ PODS:
   - Protobuf (3.6.1)
 
 DEPENDENCIES:
+  - BarcodeScanner
   - Firebase/Core
   - Firebase/Firestore
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BarcodeScanner
     - BoringSSL
     - Firebase
     - FirebaseAnalytics
@@ -132,6 +135,7 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
+  BarcodeScanner: fce1ad2b3f28286b1ab5091fe0979789618bee27
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   Firebase: 9190018e296139d938b99521cde0c15a6e8d2946
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
@@ -150,6 +154,6 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
 
-PODFILE CHECKSUM: 68ac7a838d285c5145af1a56c68e95ca87ce9749
+PODFILE CHECKSUM: 6506e4d46de0007dfe78ee461cb8e7a09478d5b0
 
 COCOAPODS: 1.5.3

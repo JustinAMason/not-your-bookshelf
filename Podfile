@@ -8,5 +8,6 @@ target 'notyourbookshelf' do
   # Pods for notyourbookshelf
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'BarcodeScanner'
 
 end

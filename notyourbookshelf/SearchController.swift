@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import BarcodeScanner
 
 class Listing {
     var lister: String!
@@ -22,10 +23,8 @@ class Listing {
 class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var scanButton: UIButton!
-    @IBOutlet weak var titleSearchButton: UIButton!
-    @IBOutlet weak var isbnSearchButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var numListingsLabel: UILabel!
     
     var db: Firestore!
     var listings: Array<Listing>!
@@ -57,6 +56,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     func resetListings() {
         listings = []
+        numListingsLabel.text = "0 listing(s) found"
         self.tableView.reloadData()
     }
     
@@ -70,6 +70,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 print("No listings")
             } else {
                 print("Listing(s) found")
+                self.numListingsLabel.text = String(querySnapshot?.count as! Int) + " listing(s) found"
                 for listing in querySnapshot!.documents {
                     let price = listing["price"] as? String ?? ""
                     let seller_id = listing["seller_id"] as? String ?? ""
@@ -89,6 +90,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     @IBAction func searchByISBN() {
         //example ISBN: "9780321967602"
+        textField.resignFirstResponder()
         let isbn = formatISBN(isbn: textField.text ?? "")
 
         db.collection("books").whereField("isbn", isEqualTo: isbn).getDocuments() { (querySnapshot, err) in
@@ -106,6 +108,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     @IBAction func searchByTitle() {
+        textField.resignFirstResponder()
         let title = textField.text ?? "";
         
         db.collection("books").whereField("title", isEqualTo: title).getDocuments() { (querySnapshot, err) in
@@ -121,10 +124,40 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
             }
         }
     }
-
+    
+    @IBAction func searchByISBNScan() {
+        print("Scan pressed")
+        let viewController = BarcodeScannerViewController()
+        viewController.codeDelegate = self as BarcodeScannerCodeDelegate
+        viewController.errorDelegate = self as BarcodeScannerErrorDelegate
+        viewController.dismissalDelegate = self as BarcodeScannerDismissalDelegate
+        
+        present(viewController, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
     }
     
+}
+
+extension SearchController: BarcodeScannerCodeDelegate {
+    func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
+        self.textField.text = code
+        searchByISBN()
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension SearchController: BarcodeScannerErrorDelegate {
+    func scanner(_ controller: BarcodeScannerViewController, didReceiveError error: Error) {
+        print(error)
+    }
+}
+
+extension SearchController: BarcodeScannerDismissalDelegate {
+    func scannerDidDismiss(_ controller: BarcodeScannerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
 }
