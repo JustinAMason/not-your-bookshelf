@@ -25,6 +25,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var numListingsLabel: UILabel!
+    @IBOutlet weak var bookshelfImage: UIImageView!
     
     var db: Firestore!
     var listings: Array<Listing>!
@@ -57,6 +58,8 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     func resetListings() {
         listings = []
         numListingsLabel.text = "0 listing(s) found"
+        tableView.isHidden = true
+        bookshelfImage.isHidden = false
         self.tableView.reloadData()
     }
     
@@ -70,7 +73,9 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 print("No listings")
             } else {
                 print("Listing(s) found")
-                self.numListingsLabel.text = String(querySnapshot?.count as! Int) + " listing(s) found"
+                self.tableView.isHidden = false
+                self.bookshelfImage.isHidden = true
+                self.numListingsLabel.text = String(querySnapshot!.count) + " listing(s) found"
                 for listing in querySnapshot!.documents {
                     let price = listing["price"] as? String ?? ""
                     let seller_id = listing["seller_id"] as? String ?? ""
