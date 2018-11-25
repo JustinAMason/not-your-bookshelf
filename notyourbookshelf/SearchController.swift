@@ -26,6 +26,8 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var numListingsLabel: UILabel!
     @IBOutlet weak var bookshelfImage: UIImageView!
+    @IBOutlet weak var bookTitle: UILabel!
+    @IBOutlet weak var bookAuthor: UILabel!
     
     var db: Firestore!
     var listings: Array<Listing>!
@@ -104,8 +106,12 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 self.resetListings()
             } else if (querySnapshot!.documents.count == 0) {
                 print("Book not found")
+                self.bookTitle.text = "(Book unknown)"
+                self.bookAuthor.text = "(Author unknown)"
                 self.resetListings()
             } else {
+                self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
+                self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
                 self.getListings(book_id: book_id)
             }
@@ -122,8 +128,12 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 self.resetListings()
             } else if (querySnapshot!.documents.count == 0) {
                 print("Book not found")
+                self.bookTitle.text = "(Book unknown)"
+                self.bookAuthor.text = "(Author unknown)"
                 self.resetListings()
             } else {
+                self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
+                self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
                 self.getListings(book_id: book_id)
             }
