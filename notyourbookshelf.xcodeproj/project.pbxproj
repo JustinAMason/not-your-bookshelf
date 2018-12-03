@@ -14,6 +14,12 @@
 		34D5D26E21A35C01001D7EE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D5D26C21A35C01001D7EE3 /* LaunchScreen.storyboard */; };
 		34E8908421A36F6B00119393 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34E8908321A36F6B00119393 /* GoogleService-Info.plist */; };
 		96243AC8916475906A156E5C /* Pods_notyourbookshelf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B25C649F624D6460612D5C4 /* Pods_notyourbookshelf.framework */; };
+		A74CA6C821B5CE90004E1BAC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C221B5CE90004E1BAC /* SearchViewController.swift */; };
+		A74CA6C921B5CE90004E1BAC /* MeetupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C321B5CE90004E1BAC /* MeetupsViewController.swift */; };
+		A74CA6CA21B5CE90004E1BAC /* NotYourBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C421B5CE90004E1BAC /* NotYourBookViewController.swift */; };
+		A74CA6CB21B5CE90004E1BAC /* BookshelvesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C521B5CE90004E1BAC /* BookshelvesViewController.swift */; };
+		A74CA6CC21B5CE90004E1BAC /* AddBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C621B5CE90004E1BAC /* AddBookViewController.swift */; };
+		A74CA6CD21B5CE90004E1BAC /* YourBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C721B5CE90004E1BAC /* YourBookViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +34,12 @@
 		3B25C649F624D6460612D5C4 /* Pods_notyourbookshelf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notyourbookshelf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BB9E19DAA1B878D9056F5B2 /* Pods-notyourbookshelf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notyourbookshelf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-notyourbookshelf/Pods-notyourbookshelf.debug.xcconfig"; sourceTree = "<group>"; };
 		798CDAAE02E9EB6F2BF44DFB /* Pods-notyourbookshelf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notyourbookshelf.release.xcconfig"; path = "Pods/Target Support Files/Pods-notyourbookshelf/Pods-notyourbookshelf.release.xcconfig"; sourceTree = "<group>"; };
+		A74CA6C221B5CE90004E1BAC /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A74CA6C321B5CE90004E1BAC /* MeetupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetupsViewController.swift; sourceTree = "<group>"; };
+		A74CA6C421B5CE90004E1BAC /* NotYourBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotYourBookViewController.swift; sourceTree = "<group>"; };
+		A74CA6C521B5CE90004E1BAC /* BookshelvesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookshelvesViewController.swift; sourceTree = "<group>"; };
+		A74CA6C621B5CE90004E1BAC /* AddBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBookViewController.swift; sourceTree = "<group>"; };
+		A74CA6C721B5CE90004E1BAC /* YourBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourBookViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,13 +75,19 @@
 		34D5D26221A35BFD001D7EE3 /* notyourbookshelf */ = {
 			isa = PBXGroup;
 			children = (
+				A74CA6C621B5CE90004E1BAC /* AddBookViewController.swift */,
+				A74CA6C521B5CE90004E1BAC /* BookshelvesViewController.swift */,
+				A74CA6C321B5CE90004E1BAC /* MeetupsViewController.swift */,
+				A74CA6C421B5CE90004E1BAC /* NotYourBookViewController.swift */,
+				A74CA6C221B5CE90004E1BAC /* SearchViewController.swift */,
+				A74CA6C721B5CE90004E1BAC /* YourBookViewController.swift */,
 				34D5D26321A35BFD001D7EE3 /* AppDelegate.swift */,
-				34B6D09321A8C5BF00607621 /* SearchController.swift */,
 				34D5D26721A35BFD001D7EE3 /* Main.storyboard */,
 				34D5D26A21A35C01001D7EE3 /* Assets.xcassets */,
 				34D5D26C21A35C01001D7EE3 /* LaunchScreen.storyboard */,
 				34D5D26F21A35C01001D7EE3 /* Info.plist */,
 				34E8908321A36F6B00119393 /* GoogleService-Info.plist */,
+				34B6D09321A8C5BF00607621 /* SearchController.swift */,
 			);
 			path = notyourbookshelf;
 			sourceTree = "<group>";
@@ -232,6 +250,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A74CA6CD21B5CE90004E1BAC /* YourBookViewController.swift in Sources */,
+				A74CA6C921B5CE90004E1BAC /* MeetupsViewController.swift in Sources */,
+				A74CA6C821B5CE90004E1BAC /* SearchViewController.swift in Sources */,
+				A74CA6CB21B5CE90004E1BAC /* BookshelvesViewController.swift in Sources */,
+				A74CA6CC21B5CE90004E1BAC /* AddBookViewController.swift in Sources */,
+				A74CA6CA21B5CE90004E1BAC /* NotYourBookViewController.swift in Sources */,
 				34B6D09421A8C5BF00607621 /* SearchController.swift in Sources */,
 				34D5D26421A35BFD001D7EE3 /* AppDelegate.swift in Sources */,
 			);

@@ -1,11 +1,11 @@
 //
-//  SearchController.swift
-//  notyourbookshelf
+//  SearchViewController.swift
+//  NotYourBookshelf
 //
-//  Created by Justin Mason on 11/19/18.
-//  Copyright © 2018 nyu.edu. All rights reserved.
+//  Created by William Kelley on 12/2/18.
+//  Copyright © 2018 William Kelley. All rights reserved.
 //
-/*
+
 import UIKit
 import Firebase
 import BarcodeScanner
@@ -20,7 +20,7 @@ class Listing {
     }
 }
 
-class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -99,7 +99,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         //example ISBN: "9780321967602"
         textField.resignFirstResponder()
         let isbn = formatISBN(isbn: textField.text ?? "")
-
+        
         db.collection("books").whereField("isbn", isEqualTo: isbn).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -150,6 +150,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         present(viewController, animated: true, completion: nil)
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
@@ -157,7 +158,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
 }
 
-extension SearchController: BarcodeScannerCodeDelegate {
+extension SearchViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         self.textField.text = code
         searchByISBN()
@@ -165,15 +166,42 @@ extension SearchController: BarcodeScannerCodeDelegate {
     }
 }
 
-extension SearchController: BarcodeScannerErrorDelegate {
+extension SearchViewController: BarcodeScannerErrorDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didReceiveError error: Error) {
         print(error)
     }
 }
 
-extension SearchController: BarcodeScannerDismissalDelegate {
+extension SearchViewController: BarcodeScannerDismissalDelegate {
     func scannerDidDismiss(_ controller: BarcodeScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
+}
+
+
+
+
+
+
+/*
+import UIKit
+
+class SearchViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    @IBAction func NotYourBookTap(_ sender: Any) {
+    }
+    /*
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "NotYourBookPress") {
+            let vc = segue.destination as! NotYourBookViewController
+            vc.fromBookshelves = false
+        }
+    }
+    */
 }
 */
