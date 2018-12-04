@@ -290,14 +290,14 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="AVm-c7-2C8">
                                             <connections>
-                                                <segue destination="Ppn-ju-2Rc" kind="unwind" unwindAction="unwindToBookshelvesViewControllerWithSegue:" id="q3x-uw-VkX"/>
+                                                <action selector="donePress:" destination="nlp-X8-TMW" id="QdT-xD-u0p"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2p9-15-nUH">
-                                <rect key="frame" x="104" y="126" width="255" height="30"/>
+                                <rect key="frame" x="104" y="126" width="147" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -326,7 +326,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                 <state key="normal" title="Button" image="Barcode Button"/>
                                 <connections>
-                                    <action selector="searchByISBNScan" destination="xNX-a7-SKe" eventType="touchUpInside" id="PMl-A7-sNf"/>
+                                    <action selector="searchByISBNScan" destination="nlp-X8-TMW" eventType="touchUpInside" id="CuG-qN-eTG"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jy8-7e-13Y">
@@ -348,7 +348,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meetup Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awF-fG-4Ac">
                                 <rect key="frame" x="222" y="388" width="137" height="21"/>
@@ -365,24 +365,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zby-Ac-Q0u">
-                                <rect key="frame" x="79" y="164" width="66" height="18"/>
+                                <rect key="frame" x="79" y="164" width="280" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOM-hC-UIL">
-                                <rect key="frame" x="79" y="190" width="66" height="18"/>
+                                <rect key="frame" x="79" y="190" width="280" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhK-02-5Fi">
-                                <rect key="frame" x="79" y="216" width="66" height="18"/>
+                                <rect key="frame" x="79" y="216" width="280" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39B-bx-2sk">
@@ -400,18 +397,58 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oEZ-Cg-6Qe">
-                                <rect key="frame" x="222" y="417" width="137" height="30"/>
+                                <rect key="frame" x="259" y="417" width="100" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DFN-t6-9Wf">
+                                <rect key="frame" x="259" y="125" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Get by ISBN">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="searchByISBN" destination="nlp-X8-TMW" eventType="touchUpInside" id="BK5-vg-Ia5"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h5N-gV-ap5">
+                                <rect key="frame" x="259" y="455" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNW-Sb-Y68">
+                                <rect key="frame" x="217" y="423" width="26" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Long:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLX-TR-htU">
+                                <rect key="frame" x="204" y="461" width="39" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sIZ-4W-osT"/>
                     </view>
                     <connections>
+                        <outlet property="AuthorField" destination="cOM-hC-UIL" id="n3I-Pp-6nb"/>
+                        <outlet property="EditionField" destination="PhK-02-5Fi" id="VqZ-aO-2Vp"/>
+                        <outlet property="ISBNButton" destination="vxD-qC-eW5" id="ggd-gk-QwG"/>
+                        <outlet property="ISBNField" destination="2p9-15-nUH" id="vtk-ps-iVB"/>
+                        <outlet property="LatitudeField" destination="oEZ-Cg-6Qe" id="maA-RK-IBm"/>
+                        <outlet property="LongitudeField" destination="h5N-gV-ap5" id="h1Z-e9-5cU"/>
                         <outlet property="PickerView" destination="VGO-uC-dlG" id="1Or-AF-EVU"/>
+                        <outlet property="PriceField" destination="uj2-qo-aj6" id="f0Z-wE-dFk"/>
+                        <outlet property="TitleField" destination="zby-Ac-Q0u" id="W91-mF-mqj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Poq-SV-KX7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -437,7 +474,6 @@
                                                 <segue destination="5Uo-r3-Ouu" kind="unwind" unwindAction="unwindToBookshelvesViewControllerWithSegue:" id="Yq1-cP-SYT"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Buy" id="8zq-ia-v9n"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -503,6 +539,16 @@
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0e-DV-sme">
+                                <rect key="frame" x="281" y="578" width="78" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Button" image="Bookmark_Unfilled"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMD-aK-uIN">
+                                <rect key="frame" x="16" y="572" width="78" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Button" image="Checkout"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="88G-eb-Gvq"/>
@@ -511,7 +557,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9V7-w7-Jj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5Uo-r3-Ouu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="782" y="770"/>
+            <point key="canvasLocation" x="781.60000000000002" y="769.56521739130437"/>
         </scene>
         <!--Your Book-->
         <scene sceneID="uru-ym-Ceu">
@@ -614,7 +660,9 @@
     </scenes>
     <resources>
         <image name="Barcode Button" width="102.40000152587891" height="102.40000152587891"/>
+        <image name="Bookmark_Unfilled" width="75" height="75"/>
         <image name="Bookshelf" width="466.63290405273438" height="466.63290405273438"/>
+        <image name="Checkout" width="75" height="75"/>
         <image name="Literature" width="30" height="30"/>
         <image name="MapMarker" width="30" height="30"/>
         <image name="Plus" width="375" height="375"/>
@@ -622,6 +670,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="XdE-Mx-gO9"/>
-        <segue reference="VRV-e7-3gi"/>
+        <segue reference="Fzg-wq-4s0"/>
     </inferredMetricsTieBreakers>
 </document>
