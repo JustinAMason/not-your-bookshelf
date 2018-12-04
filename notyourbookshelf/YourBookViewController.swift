@@ -1,6 +1,6 @@
 //
 //  YourBookViewController.swift
-//  NotYourBookshelf
+//  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/3/18.
 //  Copyright © 2018 William Kelley. All rights reserved.
@@ -10,6 +10,9 @@ import UIKit
 
 class YourBookViewController: UIViewController {
 
+    //var db: Firestore!
+    //var listings: Array<Listing>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

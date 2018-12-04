@@ -1,6 +1,6 @@
 //
 //  MeetupsViewController.swift
-//  NotYourBookshelf
+//  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/2/18.
 //  Copyright © 2018 William Kelley. All rights reserved.

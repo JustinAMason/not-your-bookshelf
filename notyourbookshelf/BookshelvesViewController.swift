@@ -1,6 +1,6 @@
 //
 //  BookshelvesViewController.swift
-//  NotYourBookshelf
+//  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/2/18.
 //  Copyright © 2018 William Kelley. All rights reserved.
@@ -13,12 +13,6 @@ class BookshelvesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    @IBAction func YourBookTap(_ sender: Any) {
-    }
-    
-    @IBAction func NotYourBookTap(_ sender: Any) {
     }
     
     //- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {

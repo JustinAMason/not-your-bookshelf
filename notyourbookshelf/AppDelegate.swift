@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  notyourbookshelf
+//  Not Your Bookshelf
 //
 //  Created by Justin Mason on 11/19/18.
 //  Copyright © 2018 nyu.edu. All rights reserved.

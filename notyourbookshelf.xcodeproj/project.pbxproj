@@ -75,12 +75,12 @@
 		34D5D26221A35BFD001D7EE3 /* notyourbookshelf */ = {
 			isa = PBXGroup;
 			children = (
-				A74CA6C621B5CE90004E1BAC /* AddBookViewController.swift */,
+				A74CA6C221B5CE90004E1BAC /* SearchViewController.swift */,
 				A74CA6C521B5CE90004E1BAC /* BookshelvesViewController.swift */,
 				A74CA6C321B5CE90004E1BAC /* MeetupsViewController.swift */,
-				A74CA6C421B5CE90004E1BAC /* NotYourBookViewController.swift */,
-				A74CA6C221B5CE90004E1BAC /* SearchViewController.swift */,
+				A74CA6C621B5CE90004E1BAC /* AddBookViewController.swift */,
 				A74CA6C721B5CE90004E1BAC /* YourBookViewController.swift */,
+				A74CA6C421B5CE90004E1BAC /* NotYourBookViewController.swift */,
 				34D5D26321A35BFD001D7EE3 /* AppDelegate.swift */,
 				34D5D26721A35BFD001D7EE3 /* Main.storyboard */,
 				34D5D26A21A35C01001D7EE3 /* Assets.xcassets */,
