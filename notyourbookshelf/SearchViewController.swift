@@ -13,10 +13,15 @@ import BarcodeScanner
 class Listing {
     var lister: String!
     var price: String!
+    var condition: String!
+    var listing_id: String!
     
-    init(lister: String, price: String) {
-        self.lister = lister
-        self.price = price
+    init(lister: String, price: String, condition: String, listing_id: String) {
+        self.lister = lister;
+        self.price = price;
+        self.condition = condition;
+        self.listing_id = listing_id;
+        
     }
 }
 
@@ -31,6 +36,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var db: Firestore!
     var listings: Array<Listing>!
+    var curBookEdition: String!
+    var curListingID: String!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (listings == nil) { return(0) }
@@ -41,6 +48,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
         cell.textLabel?.text = "Listed by " + listings[indexPath.row].lister + " ($" + listings[indexPath.row].price + ")"
         return(cell)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath as IndexPath) as! UITableViewCell;
+        self.curBookEdition = listings[(indexPath[1])].condition;
+        self.curListingID = listings[(indexPath[1])].listing_id;
     }
     
     func connectToDatabase() {
@@ -80,13 +93,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.numListingsLabel.text = String(querySnapshot!.count) + " listing(s) found"
                 for listing in querySnapshot!.documents {
                     let price = listing["price"] as? String ?? ""
+                    let condition = listing["condition"] as? String ?? ""
                     let seller_id = listing["seller_id"] as? String ?? ""
+                    let listing_id = listing.documentID;
                     self.db.collection("users").document(seller_id).getDocument() { (user, err) in
                         if let err = err {
                             print("Error getting user: \(err)")
                         } else {
                             let username = user?.data()?["username"] as? String ?? ""
-                            self.listings.append(Listing(lister: username, price: price))
+                            self.listings.append(Listing(lister: username, price: price, condition: condition, listing_id: listing_id))
                             self.tableView.reloadData()
                         }
                     }
@@ -113,6 +128,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
                 self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
+                self.curBookEdition = querySnapshot!.documents[0]["edition"] as? String;
                 self.getListings(book_id: book_id)
             }
         }
@@ -135,6 +151,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
                 self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
+                self.curBookEdition = querySnapshot!.documents[0]["edition"] as? String;
                 self.getListings(book_id: book_id)
             }
         }
@@ -150,10 +167,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         present(viewController, animated: true, completion: nil)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as? NotYourBookViewController
+        vc?.bookTitle = bookTitle.text;
+            vc?.author = bookAuthor.text;
+            vc?.edition = self.curBookEdition;
+            vc?.condition = self.curBookEdition;
+            vc?.listing_id = self.curListingID;
     }
     
 }

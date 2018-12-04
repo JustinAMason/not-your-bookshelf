@@ -25,7 +25,7 @@
                                     <color key="titleShadowColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="KIs-dp-Xlz" kind="presentation" id="buH-bj-Zcw"/>
+                                    <segue destination="KIs-dp-Xlz" kind="show" id="oxj-tN-73N"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Your Bookshelf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-1R-qCM">
@@ -93,6 +93,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="xNX-a7-SKe" id="eii-PW-ECA"/>
+                                    <outlet property="delegate" destination="xNX-a7-SKe" id="JjG-Zf-ehh"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oA2-aT-896">
                                 <rect key="frame" x="30" y="249" width="314" height="34"/>
@@ -448,19 +452,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BpT-WV-vqx">
-                                <rect key="frame" x="79" y="86" width="73" height="20"/>
+                                <rect key="frame" x="79" y="86" width="280" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbv-e3-cMx">
-                                <rect key="frame" x="79" y="112" width="73" height="20"/>
+                                <rect key="frame" x="79" y="112" width="280" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iM4-F7-rme">
-                                <rect key="frame" x="79" y="138" width="73" height="20"/>
+                                <rect key="frame" x="79" y="138" width="280" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
@@ -492,26 +496,35 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(physical)," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-bu-VFd">
-                                <rect key="frame" x="103" y="178" width="80" height="20"/>
+                                <rect key="frame" x="103" y="178" width="256" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(text)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYb-JB-euO">
-                                <rect key="frame" x="103" y="201" width="42" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8l-Mi-VlR">
+                                <rect key="frame" x="310" y="592" width="65" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="Bookmark_Unfilled"/>
+                                <connections>
+                                    <action selector="favoriteListing" destination="KIs-dp-Xlz" eventType="touchUpInside" id="Iho-Jn-NUW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="88G-eb-Gvq"/>
                     </view>
+                    <connections>
+                        <outlet property="authorLabel" destination="cbv-e3-cMx" id="5mH-1r-nVo"/>
+                        <outlet property="bookmarkButton" destination="D8l-Mi-VlR" id="bav-Eb-gIT"/>
+                        <outlet property="conditionLabel" destination="Hre-bu-VFd" id="Rql-KT-5e6"/>
+                        <outlet property="editionLabel" destination="iM4-F7-rme" id="x4x-zY-ogP"/>
+                        <outlet property="titleLabel" destination="BpT-WV-vqx" id="zVQ-hD-Q7z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9V7-w7-Jj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5Uo-r3-Ouu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="782" y="770"/>
+            <point key="canvasLocation" x="781.60000000000002" y="769.56521739130437"/>
         </scene>
         <!--Your Book-->
         <scene sceneID="uru-ym-Ceu">
@@ -614,6 +627,7 @@
     </scenes>
     <resources>
         <image name="Barcode Button" width="102.40000152587891" height="102.40000152587891"/>
+        <image name="Bookmark_Unfilled" width="75" height="75"/>
         <image name="Bookshelf" width="466.63290405273438" height="466.63290405273438"/>
         <image name="Literature" width="30" height="30"/>
         <image name="MapMarker" width="30" height="30"/>
@@ -621,7 +635,7 @@
         <image name="Search" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="XdE-Mx-gO9"/>
+        <segue reference="oxj-tN-73N"/>
         <segue reference="VRV-e7-3gi"/>
     </inferredMetricsTieBreakers>
 </document>
