@@ -7,16 +7,84 @@
 //
 
 import UIKit
+import Firebase
 
 class NotYourBookViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
+    var db: Firestore!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var editionLabel: UILabel!
+    @IBOutlet weak var conditionLabel: UILabel!
+    @IBOutlet weak var bookmarkButton: UIButton!
+    
+    var bookTitle: String!
+    var author: String!
+    var edition: String!
+    var condition: String!
+    var listing_id: String!
+    
+    func connectToDatabase() {
+        db = Firestore.firestore()
+        let settings = db.settings
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
     }
     
-
+    func updateBookmark() {
+        db.collection("favorites")
+            .whereField("user_id", isEqualTo: "demo_user")
+            .whereField("listing_id", isEqualTo: listing_id)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)");
+                } else if (querySnapshot!.documents.count > 0) {
+                    self.bookmarkButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
+                }
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        connectToDatabase()
+        updateBookmark()
+        titleLabel.text = bookTitle;
+        authorLabel.text = author;
+        editionLabel.text = edition;
+        conditionLabel.text = condition;
+    }
+    
+    @IBAction func favoriteListing() {
+        db.collection("favorites")
+        .whereField("user_id", isEqualTo: "demo_user")
+        .whereField("listing_id", isEqualTo: listing_id)
+        .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)");
+            } else if (querySnapshot!.documents.count == 0) {
+                self.addFavoriteToDatabase();
+            } else {
+                print("Favorite already stored in database")
+            }
+        }
+        
+    }
+    
+    func addFavoriteToDatabase() {
+        db.collection("favorites").addDocument(data: [
+            "user_id": "demo_user",
+            "listing_id": self.listing_id
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Favorite added to database!")
+                self.bookmarkButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
