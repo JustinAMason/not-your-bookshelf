@@ -45,6 +45,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var curPrice: String = ""
     var curMeetup: String = ""
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        connectToDatabase()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (listings == nil) { return(0) }
         return(listings.count)
@@ -176,13 +181,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         present(viewController, animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        connectToDatabase()
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as? NotYourBookViewController
+        let vc = segue.destination as? BookViewController
         vc?.bookTitle = bookTitle.text
         vc?.author = bookAuthor.text
         vc?.edition = bookEdition.text
@@ -190,6 +190,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc?.listing_id = self.curListingID
         vc?.price = self.curPrice
         vc?.meetup = self.curMeetup
+        vc?.yourBook = false
     }
     
 }
@@ -213,31 +214,3 @@ extension SearchViewController: BarcodeScannerDismissalDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
-
-
-
-
-
-/*
-import UIKit
-
-class SearchViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    @IBAction func NotYourBookTap(_ sender: Any) {
-    }
-    /*
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "NotYourBookPress") {
-            let vc = segue.destination as! NotYourBookViewController
-            vc.fromBookshelves = false
-        }
-    }
-    */
-}
-*/

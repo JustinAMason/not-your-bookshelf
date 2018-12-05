@@ -17,17 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKE-v2-GU1">
-                                <rect key="frame" x="57" y="582" width="302" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Tap for More Info on Selected Book">
-                                    <color key="titleShadowColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="KIs-dp-Xlz" kind="show" id="oxj-tN-73N"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Your Bookshelf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-1R-qCM">
                                 <rect key="frame" x="16" y="77" width="343" height="29"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
@@ -72,6 +61,13 @@
                                     <action selector="searchByISBNScan" destination="xNX-a7-SKe" eventType="touchUpInside" id="sht-h0-pBe"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYV-Uy-LvQ">
+                                <rect key="frame" x="44" y="358" width="286" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oA2-aT-896">
                                 <rect key="frame" x="30" y="249" width="314" height="34"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -112,13 +108,17 @@
                                     <outlet property="delegate" destination="xNX-a7-SKe" id="JjG-Zf-ehh"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYV-Uy-LvQ">
-                                <rect key="frame" x="44" y="358" width="286" height="21"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKE-v2-GU1">
+                                <rect key="frame" x="36" y="582" width="302" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Tap for More Info on Selected Book">
+                                    <color key="titleShadowColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="KIs-dp-Xlz" kind="show" id="oxj-tN-73N"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="K81-fP-QeB"/>
@@ -314,6 +314,16 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K3-47-rp1">
+                                        <rect key="frame" x="8" y="68" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="link"/>
+                                        <connections>
+                                            <action selector="NotYourBookButtonPress:" destination="zaA-eR-Jeg" eventType="touchUpInside" id="qkS-Dw-M8H"/>
+                                            <action selector="YourBookButtonPress:" destination="zaA-eR-Jeg" eventType="touchUpInside" id="GfK-7J-tZ0"/>
+                                            <segue destination="KIs-dp-Xlz" kind="show" identifier="SegueToNotYourBook" id="cia-Yt-IPw"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94275027509999998" green="0.77479343199999995" blue="0.57804258379999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
@@ -333,7 +343,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="Plus"/>
                                         <connections>
-                                            <segue destination="nlp-X8-TMW" kind="presentation" identifier="AddBookPress" id="Fzg-wq-4s0"/>
+                                            <segue destination="nlp-X8-TMW" kind="show" identifier="AddBookPress" id="Fzg-wq-4s0"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your Listings and Past Purchases" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJD-d4-H0x">
@@ -467,7 +477,8 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="link"/>
                                         <connections>
-                                            <segue destination="k5Z-32-aDV" kind="presentation" id="RE3-x9-jAG"/>
+                                            <action selector="YourBookButtonPress:" destination="zaA-eR-Jeg" eventType="touchUpInside" id="uOS-Ef-yAS"/>
+                                            <segue destination="KIs-dp-Xlz" kind="show" identifier="SegueToYourBook" id="ztf-7M-apD"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -493,6 +504,7 @@
                         <outlet property="bookThreeLabel" destination="nlo-Dt-j8j" id="5BS-UK-jcc"/>
                         <outlet property="bookTwoButton" destination="RfM-b9-VJp" id="YsA-Zg-9JI"/>
                         <outlet property="bookTwoLabel" destination="T2j-9D-7Xz" id="459-AW-5XM"/>
+                        <outlet property="notYourBookButton" destination="9K3-47-rp1" id="JnZ-xS-uoW"/>
                         <outlet property="nybButtton" destination="8UZ-n8-6Rq" id="xyu-0H-1eJ"/>
                         <outlet property="nybFiveLabel" destination="kAD-XQ-Rqi" id="yTo-hZ-dF9"/>
                         <outlet property="nybFourLabel" destination="38t-NH-K82" id="QZU-dm-cxa"/>
@@ -501,6 +513,7 @@
                         <outlet property="nybSixLabel" destination="5B1-Ni-efp" id="F57-S5-pbS"/>
                         <outlet property="nybThreeLabel" destination="qJX-tE-VlV" id="fXJ-IF-nT9"/>
                         <outlet property="nybTwoLabel" destination="wOR-F6-Cds" id="ty3-su-xiC"/>
+                        <outlet property="yourBookButton" destination="rxW-kb-R5C" id="h7I-io-QTF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jml-Bt-3E1" sceneMemberID="firstResponder"/>
@@ -541,12 +554,12 @@
                                     <navigationItem title="Add Book Listing" id="IHw-PF-i0b">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="V7I-qE-r9W">
                                             <connections>
-                                                <segue destination="Ppn-ju-2Rc" kind="unwind" identifier="unwindFromAddBookViewController" unwindAction="unwindToBookshelvesViewControllerWithSegue:" id="Dx4-3A-qgp"/>
+                                                <action selector="backPress:" destination="nlp-X8-TMW" id="vUm-WP-q24"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="AVm-c7-2C8">
                                             <connections>
-                                                <action selector="donePress:" destination="nlp-X8-TMW" id="kkO-3P-Bom"/>
+                                                <action selector="donePress:" destination="nlp-X8-TMW" id="cek-wF-dFJ"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -709,14 +722,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Poq-SV-KX7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Ppn-ju-2Rc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2260" y="769.56521739130437"/>
+            <point key="canvasLocation" x="1897" y="770"/>
         </scene>
-        <!--Not Your Book-->
+        <!--Book-->
         <scene sceneID="Lpa-9y-0Td">
             <objects>
-                <viewController title="Not Your Book" id="KIs-dp-Xlz" customClass="NotYourBookViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Book" id="KIs-dp-Xlz" customClass="BookViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jPf-dG-CrZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -725,7 +737,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Not Your Book" id="6DA-0S-EzN">
+                                    <navigationItem title="(Not) Your Book" id="6DA-0S-EzN">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="shj-zx-mfU">
                                             <connections>
                                                 <action selector="backPress:" destination="KIs-dp-Xlz" id="GJF-Cj-dML"/>
@@ -797,6 +809,7 @@
                                 <state key="normal" title="Button" image="Bookmark_Unfilled"/>
                                 <connections>
                                     <action selector="favoriteListing" destination="KIs-dp-Xlz" eventType="touchUpInside" id="Iho-Jn-NUW"/>
+                                    <segue destination="nlp-X8-TMW" kind="show" identifier="SegueToAddBook" id="re8-hd-qPD"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0d-xr-Gr3">
@@ -841,98 +854,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9V7-w7-Jj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="781.60000000000002" y="769.56521739130437"/>
-        </scene>
-        <!--Your Book-->
-        <scene sceneID="uru-ym-Ceu">
-            <objects>
-                <viewController title="Your Book" id="k5Z-32-aDV" customClass="YourBookViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qrp-6b-6mJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tGZ-M7-FbU">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Your Book" id="XKO-7X-Em4">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="ygw-DP-Z2b">
-                                            <connections>
-                                                <action selector="backPress:" destination="k5Z-32-aDV" id="Ged-To-k7p"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="MFP-Ag-c7P">
-                                            <connections>
-                                                <segue destination="nlp-X8-TMW" kind="presentation" id="VRV-e7-3gi"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8VE-4o-5qQ">
-                                <rect key="frame" x="16" y="83" width="39" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qd1-kO-bbg">
-                                <rect key="frame" x="79" y="83" width="73" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-r0-fr6">
-                                <rect key="frame" x="79" y="109" width="73" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(no ISBN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qh-4G-LnT">
-                                <rect key="frame" x="79" y="135" width="73" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a23-l8-VbE">
-                                <rect key="frame" x="16" y="109" width="57" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edition:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FA-bT-Vzd">
-                                <rect key="frame" x="16" y="135" width="58" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26b-xd-yup">
-                                <rect key="frame" x="67" y="245" width="240" height="330"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="yMm-ia-UNC">
-                                <rect key="frame" x="140" y="598" width="94" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Condition:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5U-oj-bE1">
-                                <rect key="frame" x="16" y="176" width="79" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(physical), (text)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odx-Hv-2LS">
-                                <rect key="frame" x="103" y="175" width="126" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Ch1-kJ-HLw"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2OS-TQ-9wM" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1520.8" y="769.56521739130437"/>
+            <point key="canvasLocation" x="1113" y="770"/>
         </scene>
     </scenes>
     <resources>
@@ -944,6 +866,7 @@
         <image name="Search" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VRV-e7-3gi"/>
+        <segue reference="oxj-tN-73N"/>
+        <segue reference="re8-hd-qPD"/>
     </inferredMetricsTieBreakers>
 </document>

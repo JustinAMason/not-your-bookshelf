@@ -19,6 +19,8 @@ class BookshelvesViewController: UIViewController {
     @IBOutlet weak var bookSixButton: bookButton!
     @IBOutlet weak var bookSevenButton: bookButton!
     
+    @IBOutlet weak var yourBookButton: UIButton!
+    @IBOutlet weak var notYourBookButton: UIButton!
     @IBOutlet weak var nybButtton: bookButton!
     
     @IBOutlet weak var bookOneLabel: UILabel!
@@ -91,24 +93,24 @@ class BookshelvesViewController: UIViewController {
         return myButton
     }
     
-    @IBAction func unwindToBookshelvesViewController(segue: UIStoryboardSegue) {
-        print("Unwind to Bookshelves View Controller")
+    @IBAction func YourBookButtonPress(_ sender: Any) {
+        presentingViewController?.performSegue(withIdentifier: "SegueToYourBook", sender: self)
     }
     
+    @IBAction func NotYourBookButtonPress(_ sender: Any) {
+        presentingViewController?.performSegue(withIdentifier: "SegueToNotYourBook", sender: self)
+    }
     
-    
-    /*
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "YourBookPress") {
-            let vc = segue.destination as! YourBookViewController
-            vc.fromBookshelves = true
+        if segue.identifier == "SegueToYourBook" {
+            let vc = segue.destination as? BookViewController
+            vc?.yourBook = true
         }
-        /*
-        if (segue.identifier == "NotYourBookPress") {
-            let vc = segue.destination as! BookViewController
+        if segue.identifier == "SegueToNotYourBook" {
+            let vc = segue.destination as? BookViewController
+            vc?.yourBook = false
         }
-        */
     }
-    */
+    
 }
 
