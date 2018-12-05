@@ -19,6 +19,11 @@ class YourBookViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    // pressing back
+    @IBAction func backPress(_ sender: Any) {
+        presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
 
     /*
     // MARK: - Navigation

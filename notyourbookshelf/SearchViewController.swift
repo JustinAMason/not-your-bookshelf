@@ -15,13 +15,16 @@ class Listing {
     var price: String!
     var condition: String!
     var listing_id: String!
+    var latitude: String!
+    var longitude: String!
     
-    init(lister: String, price: String, condition: String, listing_id: String) {
+    init(lister: String, price: String, condition: String, listing_id: String, latitude: String, longitude: String) {
         self.lister = lister;
         self.price = price;
         self.condition = condition;
         self.listing_id = listing_id;
-        
+        self.latitude = latitude;
+        self.longitude = longitude
     }
 }
 
@@ -30,14 +33,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var numListingsLabel: UILabel!
-    @IBOutlet weak var bookshelfImage: UIImageView!
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookAuthor: UILabel!
+    @IBOutlet weak var bookEdition: UILabel!
+    
     
     var db: Firestore!
     var listings: Array<Listing>!
-    var curBookEdition: String!
     var curListingID: String!
+    var curCondition: String = ""
+    var curPrice: String = ""
+    var curMeetup: String = ""
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (listings == nil) { return(0) }
@@ -52,8 +58,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath as IndexPath) as! UITableViewCell;
-        self.curBookEdition = listings[(indexPath[1])].condition;
-        self.curListingID = listings[(indexPath[1])].listing_id;
+        self.curListingID = listings[(indexPath[1])].listing_id
+        self.curCondition = listings[(indexPath[1])].condition
+        self.curPrice = listings[(indexPath[1])].price
+        self.curMeetup = listings[(indexPath[1])].latitude + ", " + listings[(indexPath[1])].longitude
     }
     
     func connectToDatabase() {
@@ -74,7 +82,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         listings = []
         numListingsLabel.text = "0 listing(s) found"
         tableView.isHidden = true
-        bookshelfImage.isHidden = false
         self.tableView.reloadData()
     }
     
@@ -89,19 +96,21 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             } else {
                 print("Listing(s) found")
                 self.tableView.isHidden = false
-                self.bookshelfImage.isHidden = true
                 self.numListingsLabel.text = String(querySnapshot!.count) + " listing(s) found"
                 for listing in querySnapshot!.documents {
                     let price = listing["price"] as? String ?? ""
-                    let condition = listing["condition"] as? String ?? ""
-                    let seller_id = listing["seller_id"] as? String ?? ""
+                    let condition = listing["condition"] as? String ?? "";
+                    let seller_id = listing["seller_id"] as? String ?? "";
                     let listing_id = listing.documentID;
+                    let latitude = listing["latitude"] as? String ?? "";
+                    let longitude = listing["longitude"] as? String ?? "";
+                    print("Lat: \(latitude), Long: \(longitude)")
                     self.db.collection("users").document(seller_id).getDocument() { (user, err) in
                         if let err = err {
                             print("Error getting user: \(err)")
                         } else {
                             let username = user?.data()?["username"] as? String ?? ""
-                            self.listings.append(Listing(lister: username, price: price, condition: condition, listing_id: listing_id))
+                            self.listings.append(Listing(lister: username, price: price, condition: condition, listing_id: listing_id, latitude: latitude, longitude: longitude))
                             self.tableView.reloadData()
                         }
                     }
@@ -127,8 +136,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             } else {
                 self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
                 self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
+                self.bookEdition.text = querySnapshot!.documents[0]["edition"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
-                self.curBookEdition = querySnapshot!.documents[0]["edition"] as? String;
                 self.getListings(book_id: book_id)
             }
         }
@@ -150,8 +159,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             } else {
                 self.bookTitle.text = querySnapshot!.documents[0]["title"] as? String ?? ""
                 self.bookAuthor.text = querySnapshot!.documents[0]["author"] as? String ?? ""
+                self.bookEdition.text = querySnapshot!.documents[0]["edition"] as? String ?? ""
                 let book_id = querySnapshot!.documents[0].documentID
-                self.curBookEdition = querySnapshot!.documents[0]["edition"] as? String;
                 self.getListings(book_id: book_id)
             }
         }
@@ -174,11 +183,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? NotYourBookViewController
-        vc?.bookTitle = bookTitle.text;
-            vc?.author = bookAuthor.text;
-            vc?.edition = self.curBookEdition;
-            vc?.condition = self.curBookEdition;
-            vc?.listing_id = self.curListingID;
+        vc?.bookTitle = bookTitle.text
+        vc?.author = bookAuthor.text
+        vc?.edition = bookEdition.text
+        vc?.condition = self.curCondition
+        vc?.listing_id = self.curListingID
+        vc?.price = self.curPrice
+        vc?.meetup = self.curMeetup
     }
     
 }

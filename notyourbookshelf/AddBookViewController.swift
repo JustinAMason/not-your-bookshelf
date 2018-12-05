@@ -149,9 +149,14 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     
-    /*************
-    * Done Press *
-    *************/
+    /**********************
+    * Back and Done Press *
+    **********************/
+    
+    // pressing back
+    @IBAction func backPress(_ sender: Any) {
+        presentingViewController?.dismiss(animated: true, completion: nil)
+    }
     
     // pressing done
     @IBAction func donePress(_ sender: Any) {

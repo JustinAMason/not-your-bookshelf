@@ -13,17 +13,23 @@ class NotYourBookViewController: UIViewController {
     
     var db: Firestore!
     
+    @IBOutlet weak var navBar: UINavigationItem!
+    @IBOutlet weak var navBarRightButton: UIBarButtonItem!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var editionLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
+    @IBOutlet weak var meetupLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
+    @IBOutlet weak var priceAmtLabel: UILabel!
     
     var bookTitle: String!
     var author: String!
     var edition: String!
     var condition: String!
     var listing_id: String!
+    var price: String!
+    var meetup: String!
     
     func connectToDatabase() {
         db = Firestore.firestore()
@@ -53,6 +59,13 @@ class NotYourBookViewController: UIViewController {
         authorLabel.text = author;
         editionLabel.text = edition;
         conditionLabel.text = condition;
+        priceAmtLabel.text = price;
+        meetupLabel.text = meetup;
+    }
+    
+    // pressing back
+    @IBAction func backPress(_ sender: Any) {
+        presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func favoriteListing() {
