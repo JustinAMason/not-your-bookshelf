@@ -158,6 +158,9 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         if (addListing()) {
             presentingViewController?.dismiss(animated: true, completion: nil)
         }
+        else {
+            print("addListing() failed")
+        }
     }
     
     // (helper func) add new document to 'listings' collection -- with -- book_id (key), condition, meetup (array of lat, long), price, seller_id

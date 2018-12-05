@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icons8-bookmark-filled-500.png",
+      "filename" : "icons8-bookmark-filled-50.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icons8-bookmark-filled-501.png",
+      "filename" : "icons8-bookmark-filled-100.png",
       "scale" : "2x"
     },
     {
