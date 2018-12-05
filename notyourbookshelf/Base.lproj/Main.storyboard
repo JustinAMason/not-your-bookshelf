@@ -219,22 +219,6 @@
                                         <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nud-UB-hMG">
-                                        <rect key="frame" x="312" y="233" width="63" height="62"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                        <state key="normal" image="Plus"/>
-                                        <connections>
-                                            <segue destination="nlp-X8-TMW" kind="presentation" identifier="AddBookPress" id="Fzg-wq-4s0"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AU-8a-ByJ">
-                                        <rect key="frame" x="130" y="257" width="114" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <state key="normal" title="[Your Bookshelf]"/>
-                                        <connections>
-                                            <segue destination="k5Z-32-aDV" kind="presentation" id="YH9-Pk-Wfe"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your Listings and Past Purchases" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJD-d4-H0x">
                                         <rect key="frame" x="99" y="77" width="185" height="15"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
@@ -242,10 +226,133 @@
                                         <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <skView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gB6-Aa-CDe">
-                                        <rect key="frame" x="44" y="105" width="287" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                    </skView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEW-BB-Q6S" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="64" y="138" width="35" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbH-pa-rs9" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="132" y="120" width="25" height="138"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xWP-La-Wbt" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="160" y="148" width="38" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CqD-Od-7ZC" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="202" y="134" width="31" height="124"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Du1-1W-S71">
+                                        <rect key="frame" x="26" y="186" width="110" height="25"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RfM-b9-VJp" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="101" y="151" width="28" height="107"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2j-9D-7Xz">
+                                        <rect key="frame" x="63" y="194" width="105" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlo-Dt-j8j">
+                                        <rect key="frame" x="89" y="179" width="111" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldR-yl-kZ9">
+                                        <rect key="frame" x="131" y="193" width="96" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pz-QM-qHj">
+                                        <rect key="frame" x="165" y="186" width="105" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="6" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F8M-nN-Dmz">
+                                        <rect key="frame" x="198" y="190" width="108" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9n-F4-zyx">
+                                        <rect key="frame" x="230" y="180" width="116" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZFU-rR-vVO" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="237" y="143" width="31" height="115"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eT-sT-cr1" customClass="bookButton" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="273" y="123" width="31" height="135"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IJU-rL-jsM" customClass="bookshelf" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="49" y="103" width="10" height="184"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="6"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZ1-Id-8Na" customClass="bookshelf" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="320" y="103" width="10" height="184"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="6"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSc-oS-gCL" customClass="bookshelf" customModule="notyourbookshelf" customModuleProvider="target">
+                                        <rect key="frame" x="30" y="258" width="316" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nud-UB-hMG">
+                                        <rect key="frame" x="304" y="8" width="63" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Plus"/>
+                                        <connections>
+                                            <segue destination="nlp-X8-TMW" kind="presentation" identifier="AddBookPress" id="Fzg-wq-4s0"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94275027509999998" green="0.77479343199999995" blue="0.57804258379999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
@@ -254,6 +361,22 @@
                         <viewLayoutGuide key="safeArea" id="Y86-Ot-gUk"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Bookshelves" image="Literature" selectedImage="Literature" id="4cQ-TD-fz5"/>
+                    <connections>
+                        <outlet property="bookFiveButton" destination="CqD-Od-7ZC" id="EZx-Wa-F8n"/>
+                        <outlet property="bookFiveLabel" destination="2pz-QM-qHj" id="osK-VJ-QTx"/>
+                        <outlet property="bookFourButton" destination="xWP-La-Wbt" id="nxd-XF-EMa"/>
+                        <outlet property="bookFourLabel" destination="ldR-yl-kZ9" id="hpK-KV-HMk"/>
+                        <outlet property="bookOneButton" destination="MEW-BB-Q6S" id="fYs-tG-piN"/>
+                        <outlet property="bookOneLabel" destination="Du1-1W-S71" id="Bva-XL-c3b"/>
+                        <outlet property="bookSevenButton" destination="0eT-sT-cr1" id="1dS-DA-aKO"/>
+                        <outlet property="bookSevenLabel" destination="O9n-F4-zyx" id="dfh-Ct-fRt"/>
+                        <outlet property="bookSixButton" destination="ZFU-rR-vVO" id="Imo-NN-LCa"/>
+                        <outlet property="bookSixLabel" destination="F8M-nN-Dmz" id="pcc-6I-NVG"/>
+                        <outlet property="bookThreeButton" destination="HbH-pa-rs9" id="amU-IK-xcj"/>
+                        <outlet property="bookThreeLabel" destination="nlo-Dt-j8j" id="5BS-UK-jcc"/>
+                        <outlet property="bookTwoButton" destination="RfM-b9-VJp" id="YsA-Zg-9JI"/>
+                        <outlet property="bookTwoLabel" destination="T2j-9D-7Xz" id="459-AW-5XM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jml-Bt-3E1" sceneMemberID="firstResponder"/>
             </objects>
