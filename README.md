@@ -7,7 +7,7 @@
 ## Notable External Resources Used
 - ["How To Create A TableView In Xcode 8 (Swift 3.0)"](https://www.youtube.com/watch?v=fFpMiSsynXM) (YouTube)
 - ["BarcodeScanner"](https://github.com/hyperoslo/BarcodeScanner#installation) (GitHub)
-- ["GPX-POI file generator"] (http://gpx-poi.com/) (gpx-poi.com)
+- ["GPX-POI file generator"](http://gpx-poi.com/) (gpx-poi.com)
 
 ## Images/Art credits
 
