@@ -43,6 +43,9 @@ class BookViewController: UIViewController {
         super.viewDidLoad()
         connectToDatabase()
         updateBookmark()
+        
+        //Listing(listing_id: listing_id, book_id: book_id, seller_id: username, price: price, condition: condition, latitude: latitude, longitude: longitude)
+        
         titleLabel.text = bookTitle;
         authorLabel.text = author;
         editionLabel.text = edition;
@@ -56,11 +59,15 @@ class BookViewController: UIViewController {
             self.bookmarkButton.setImage(UIImage(named: "Edit_Filled"), for: UIControl.State.highlighted);
             navBar.title = "Your Book"
             navBarRightButton.isEnabled = false
+            
+            // TODO: Enable and Unhide Delete button
         }
         else {
             self.bookmarkButton.setImage(UIImage(named: "Bookmark_Unfilled"), for: UIControl.State.normal);
             navBar.title = "Not Your Book"
             navBarRightButton.isEnabled = true
+            
+            // TODO: Disable and Hide Delete button
         }
     }
     
