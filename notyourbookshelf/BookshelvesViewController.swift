@@ -12,46 +12,39 @@ import CoreGraphics
 
 class BookshelvesViewController: UIViewController {
 
-    @IBOutlet weak var bookOneButton: bookButton!
-    @IBOutlet weak var bookTwoButton: bookButton!
-    @IBOutlet weak var bookThreeButton: bookButton!
-    @IBOutlet weak var bookFourButton: bookButton!
-    @IBOutlet weak var bookFiveButton: bookButton!
-    @IBOutlet weak var bookSixButton: bookButton!
-    @IBOutlet weak var bookSevenButton: bookButton!
+    /**********
+    * Outlets *
+    ***********/
     
-    @IBOutlet weak var yourBookButton: UIButton!
-    @IBOutlet weak var notYourBookButton: UIButton!
-    @IBOutlet weak var nybButtton: bookButton!
+    @IBOutlet weak var stackViewNYB: UIStackView!
+    @IBOutlet weak var stackViewYB: UIStackView!
     
-    @IBOutlet weak var bookOneLabel: UILabel!
-    @IBOutlet weak var bookTwoLabel: UILabel!
-    @IBOutlet weak var bookThreeLabel: UILabel!
-    @IBOutlet weak var bookFourLabel: UILabel!
-    @IBOutlet weak var bookFiveLabel: UILabel!
-    @IBOutlet weak var bookSixLabel: UILabel!
-    @IBOutlet weak var bookSevenLabel: UILabel!
-    
-    @IBOutlet weak var nybOneLabel: UILabel!
-    @IBOutlet weak var nybTwoLabel: UILabel!
-    @IBOutlet weak var nybThreeLabel: UILabel!
-    @IBOutlet weak var nybFourLabel: UILabel!
-    @IBOutlet weak var nybFiveLabel: UILabel!
-    @IBOutlet weak var nybSixLabel: UILabel!
-    @IBOutlet weak var nybSevenLabel: UILabel!
+    /************
+    * Variables *
+    *************/
     
     var db: Firestore!
     
     var username: String = "demo_user" // HARD CODED
-    var user_id: String!
+    var user_id = "00o3tUgaYM297sZSVtdi"
     
-    var userListings: Array<Listing>!
-    var userBookmarks: Array<Listing>!
-    var yourBookLabels: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 spaces
-    var notYourBookLabels: [String] = ["f1","f2","","","","",""] // 7 again
+    var userListings: Array<Listing> = []
+    var userBookmarks: Array<Listing> = []
     
-    var sampleListings: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 TOTAL
-    var sampleFavorites: [String] = ["f1","f2","","","","",""] // 7 AGAIN
+    var selectedBookTag: Int = 0
+    //var isSelectedYourBook: Bool = true
+    
+    
+//    var yourBookLabels: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 spaces
+//    var notYourBookLabels: [String] = ["f1","f2","","","","",""] // 7 again
+//
+//    var sampleListings: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 TOTAL
+//    var sampleFavorites: [String] = ["f1","f2","","","","",""] // 7 AGAIN
+    
+    var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
+                                 UIColor(named: "bookRed")!,
+                                 UIColor(named: "bookGreen")!,
+                                 UIColor(named: "bookPurple")!]
     
     /************
     * Load Time *
@@ -61,46 +54,13 @@ class BookshelvesViewController: UIViewController {
         super.viewDidLoad()
         connectToDatabase()
         
-        // Populate Bookshelves
         populateYourBookshelf(username: username)
         populateNotYourBookshelf(username: username)
         
-        //background color for the view
+        //populateYourBookshelf(username: username)
+        //populateNotYourBookshelf(username: username)
+        
         //view.backgroundColor = UIColor(white: 0.25, alpha: 1.0)
-        //Iteration 1: Make a button
-        //view.addSubview(makeButtonWithText("Indie Button"))
-        
-        self.bookOneLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookTwoLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookThreeLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookFourLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookFourLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookFiveLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        self.bookSixLabel.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        
-        self.bookOneLabel.text = self.sampleListings[0]
-        self.bookTwoLabel.text = self.sampleListings[1]
-        self.bookThreeLabel.text = self.sampleListings[2]
-        self.bookFourLabel.text = self.sampleListings[3]
-        self.bookFiveLabel.text = self.sampleListings[4]
-        self.bookSixLabel.text = self.sampleListings[5]
-        self.bookSevenLabel.text = self.sampleListings[6]
-        
-        self.nybOneLabel.text = self.sampleFavorites[0]
-        self.nybTwoLabel.text = self.sampleFavorites[1]
-        self.nybThreeLabel.text = self.sampleFavorites[2]
-        self.nybFourLabel.text = self.sampleFavorites[3]
-        self.nybFiveLabel.text = self.sampleFavorites[4]
-        self.nybSixLabel.text = self.sampleFavorites[5]
-        self.nybSevenLabel.text = self.sampleFavorites[6]
-        
-        self.bookOneButton.showsTouchWhenHighlighted = true
-        self.bookTwoButton.showsTouchWhenHighlighted = true
-        self.bookThreeButton.showsTouchWhenHighlighted = true
-        self.bookFourButton.showsTouchWhenHighlighted = true
-        self.bookFiveButton.showsTouchWhenHighlighted = true
-        self.bookSixButton.showsTouchWhenHighlighted = true
-        self.bookSevenButton.showsTouchWhenHighlighted = true
     }
     
     
@@ -120,31 +80,51 @@ class BookshelvesViewController: UIViewController {
     * Dynamic Book Buttons *
     ************************/
     
-    func makeBookButtonWithTitle(title:String) -> UIButton {
-        let myButton = 
-            //UIButton(type: UIButton.ButtonType.system)
-        //Set a frame for the button. Ignored in AutoLayout/ Stack Views
-        myButton.frame = CGRect(x: 30, y: 30, width: 150, height: 150)
-        //Set background color
-        myButton.backgroundColor = UIColor.blue
+    func makeBookButtonWithInfo(title:String, listing_id:String, indexOfListing: Int, isYourBook: Bool) -> UIButton {
+        print("Making button for... \(title)")
+        let myButton = UIButton(type: UIButton.ButtonType.system)
+        
+        myButton.titleLabel?.text = title
+        myButton.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2) // ROTATE TEXT
+        
+        myButton.tag = indexOfListing // LISTING_ID -- MUST ACCESS THIS (INT), then USE TO ACCESS userListings[i].listing_id -- IN SEGUE
+        
+        myButton.frame = CGRect(x: 60, y: 135, width: 120, height: 35) // will be IGNORED in stack view
+        myButton.layer.cornerRadius = 4
+        myButton.clipsToBounds = true
+        myButton.showsTouchWhenHighlighted = true
+        
+        let number = Int.random(in: 0 ..< self.bookColors.count)
+        myButton.backgroundColor = self.bookColors[number]
+        
+        if isYourBook {
+            myButton.addTarget(self, action: #selector(BookshelvesViewController.tapYourBook(sender:)), for: .touchUpInside)
+        } else {
+            myButton.addTarget(self, action: #selector(BookshelvesViewController.tapNotYourBook(sender:)), for: .touchUpInside)
+        }
+        
         return myButton
     }
     
-    @IBAction func YourBookButtonPress(_ sender: Any) {
+    @IBAction func tapYourBook(sender: UIButton) {
+        selectedBookTag = sender.tag
         presentingViewController?.performSegue(withIdentifier: "SegueToYourBook", sender: self)
     }
     
-    @IBAction func NotYourBookButtonPress(_ sender: Any) {
+    @IBAction func tapNotYourBook(sender: UIButton) {
+        selectedBookTag = sender.tag
         presentingViewController?.performSegue(withIdentifier: "SegueToNotYourBook", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SegueToYourBook" {
             let vc = segue.destination as? BookViewController
+            vc?.listing_id = self.userListings[selectedBookTag].listing_id
             vc?.yourBook = true
         }
         if segue.identifier == "SegueToNotYourBook" {
             let vc = segue.destination as? BookViewController
+            vc?.listing_id = self.userBookmarks[selectedBookTag].listing_id
             vc?.yourBook = false
         }
     }
@@ -155,17 +135,40 @@ class BookshelvesViewController: UIViewController {
     **************************/
     
     func populateYourBookshelf(username: String) {
-        retrieveUserListings(username: username)
         
-        makeBookButtonArray(listings: userListings)
+        print("...Populating Your Bookshelf...")
+        
+        queryUserListings(username: username)
+        
+        print("...Queried Listings...")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            
+            print("Waited")
+            
+            if (!self.userListings.isEmpty) {
+                self.addBooksToStackView(listings: self.userListings, stack: self.stackViewYB, areYourBooks: true)
+                
+                print("...Stacked Listings...")
+                
+            }
+            return
+        })
+        
+        print("--Populated Your Bookshelf--")
     }
     
     func populateNotYourBookshelf(username: String) {
-        retrieveUserBookmarks(username: username)
-        
-        makeBookButtonArray(listings: userBookmarks)
+        print("...Populating Not Your Bookshelf...")
+        queryUserBookmarks(username: username)
+        print("...Queried Bookmarks...")
+        if (!self.userBookmarks.isEmpty) {
+            addBooksToStackView(listings: self.userBookmarks, stack: self.stackViewNYB, areYourBooks: false)
+        }
+        print("--Populated Not Your Bookshelf--")
     }
     
+    // BROKEN: function returns before database query does -- user_id is not assigned quick enough
     func getUserID(username: String) -> String {
         var user_id = ""
         db.collection("users").whereField("username", isEqualTo: username).getDocuments() { (querySnapshot, err) in
@@ -174,20 +177,33 @@ class BookshelvesViewController: UIViewController {
             else {
                 print("User Found") // Should be unique (because usernames would be unique)
                 user_id = querySnapshot!.documents[0].documentID
+                print("\twithID: \(user_id)")
             }
         }
+        print("\treturning: \(user_id)")
         return user_id
     }
     
-    func retrieveUserListings(username: String) {
-        let user_id = getUserID(username: self.username)
-        db.collection("listings").whereField("seller_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
+    func queryUserListings(username: String) {
+        //let user_id = getUserID(username: self.username)
+        
+        db.collection("listings").whereField("seller_id", isEqualTo: self.user_id).getDocuments() { (querySnapshot, err) in
             if let err = err { print("Error getting documents: \(err)") }
-            else if (querySnapshot!.documents.count == 0) { print("No Listings") }
+            else if (querySnapshot!.documents.count == 0) {
+                print("No Listings found with user_id = \(self.user_id)")
+                self.userListings.append(Listing( listing_id: "pHf79ePdtDfQ5X4FBrMO",
+                                                  book_id: "AqRPU9VrnGypaGJHxIIs",
+                                                  seller_id: "sample",
+                                                  price: "29.87",
+                                                  condition: "New or Like New, No Markings",
+                                                  latitude: "40.6882",
+                                                  longitude: "73.9542" ) )
+            }
             else {
                 print("User Listing(s) found")
                 for listing in querySnapshot!.documents {
                     let listing_id = listing.documentID
+                    print("\tlistingID: \(listing_id)")
                     let book_id = listing["book_id"] as? String ?? ""
                     let seller_id = listing["seller_id"] as? String ?? ""
                     let price = listing["price"] as? String ?? ""
@@ -206,7 +222,7 @@ class BookshelvesViewController: UIViewController {
         }
     }
     
-    func retrieveUserBookmarks(username: String) {
+    func queryUserBookmarks(username: String) {
         let user_id = getUserID(username: self.username)
         db.collection("favorites").whereField("seller_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
             if let err = err { print("Error getting documents: \(err)") }
@@ -247,50 +263,22 @@ class BookshelvesViewController: UIViewController {
         return title
     }
     
-    func makeBookButtonArray(listings: Array<Listing>) {
-        // declare bookshelf as empty array
-        for listing in listings {
+    func addBooksToStackView(listings: Array<Listing>, stack: UIStackView, areYourBooks: Bool) {
+        print("...Adding Books...")
+        for i in listings.indices {
+            let listing = listings[i]
             let title = self.getTitle(book_id: listing.book_id)
-            let bookButton = makeBookButtonWithTitle(title: title)
-            // add bookButton to bookshelf
+            print("Book Title: \(title)")
+            let bookButton = makeBookButtonWithInfo(title: title, listing_id: listing.listing_id, indexOfListing: i, isYourBook: areYourBooks)
+
+            stack.addArrangedSubview(bookButton)
         }
         
-        // return bookshelf -- REQUIRED: add return type to this func. ; add yourBookshelf & notYourBookshelf variables of return type in VC class. ; in populate... func's, set those var's equal to the return of this function.
+        // add spacer so books appear all to left
     }
     
     /******
     * End *
     ******/
     
-}
-
-
-/********************************************
-* Custom UIButton Class to appear as a Book *
-*********************************************/
-
-class bookButton: UIButton {
-    var title: String!
-    var listing_id: String!
-    
-    var bookColorOptions: [UIColor] = [UIColor(named: "bookOrange")!,
-                                 UIColor(named: "bookRed")!,
-                                 UIColor(named: "bookGreen")!,
-                                 UIColor(named: "bookPurple")!]
-    
-    override func draw(_ rect: CGRect) {
-        let path = UIBezierPath(roundedRect: rect, cornerRadius: 4)
-        let number = Int.random(in: 0 ... 3)
-        self.bookColorOptions[number].setFill()
-        path.fill()
-    }
-    
-    init(title: String, listing_id: String) {
-        self.title = title
-        self.listing_id = listing_id
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
