@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import Firebase
+import Contacts
 
 class Meetup: NSObject, MKAnnotation {
     let title: String? //title string
@@ -78,7 +79,7 @@ class MeetupsViewController: UIViewController {
         getData()
         
         // set initial screen location in NYC
-        let initialLocation = CLLocation(latitude: 40.7528, longitude: -74.0000)
+        let initialLocation = CLLocation(latitude: 40.7525, longitude: -73.9676)
         centerMapOnLocation(location: initialLocation)
         
         mapView.delegate = self
@@ -119,7 +120,7 @@ class MeetupsViewController: UIViewController {
             }
         }
     }
-    let regionRadius: CLLocationDistance = 10000
+    let regionRadius: CLLocationDistance = 12500
     
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
@@ -129,10 +130,19 @@ class MeetupsViewController: UIViewController {
     
     //displays additional info when "i" clicked on a location pin
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        guard let annotation = view.annotation as? Meetup, let title = annotation.title else { return }
+        guard
+            let annotation = view.annotation as? Meetup
+            //let title = annotation.title
+        else { return }
         
-        let alertController = UIAlertController(title: title, message: "You''re almost there.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: annotation.event + " @ " + annotation.location, message: "Scheduled for: " + annotation.date, preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//        let routeAction = UIAlertAction(title: "Take me there!", style: .default) {
+//            (action:UIAlertAction!) in
+//            let word = "secondary action"
+//            print("Debugging: " + word);
+//            //additional code
+//        }
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
@@ -146,6 +156,22 @@ class MeetupsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    let locationManager = CLLocationManager()
+    func checkLocationAuthorizationStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            mapView.showsUserLocation = true
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkLocationAuthorizationStatus()
+    }
+    
 }
 
 extension MeetupsViewController: MKMapViewDelegate {
