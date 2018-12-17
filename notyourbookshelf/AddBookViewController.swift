@@ -15,12 +15,12 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var PickerView: UIPickerView!
     @IBOutlet weak var ISBNButton: UIButton!
     @IBOutlet weak var ISBNField: UITextField!
-    @IBOutlet weak var TitleField: UILabel!
-    @IBOutlet weak var AuthorField: UILabel!
-    @IBOutlet weak var EditionField: UILabel!
-    @IBOutlet weak var PriceField: UITextField!
-    @IBOutlet weak var LatitudeField: UITextField!
-    @IBOutlet weak var LongitudeField: UITextField!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var editionLabel: UILabel!
+    @IBOutlet weak var priceField: UITextField!
+    @IBOutlet weak var latitudeField: UITextField!
+    @IBOutlet weak var longitudeField: UITextField!
     
     var pickerData: [[String]] = [[String]]()
     var condition: [String] = ["(Physical)", "(Text)"]
@@ -30,26 +30,44 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var book_id: String = ""
     var listingRef: DocumentReference? = nil
     
+    /**********************************
+    * Info for Fields from Edit Segue *
+    **********************************/
+    var hasSeguedToEdit: Bool = false
+    var titleFromEdit: String = ""
+    var authorFromEdit: String = ""
+    var editionFromEdit: String = ""
+    var priceFromEdit: String = ""
+    // need to set up something to display condition in pv
+    var latitudeFromEdit: String = ""
+    var longitudeFromEdit: String = ""
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-        // Connect to Database
         connectToDatabase()
         
-        // Connecting PickerView
+        // Connecting PickerView, setting Condition Options
         self.PickerView.delegate = self
         self.PickerView.dataSource = self
-        
-        // Condition Options
         pickerData = [ ["(Physical)", "New or Like New", "Lightly Used", "Heavily Used"],
                        ["(Text)", "No Markings", "Light Marking", "Heavy Marking"] ]
-        
         // [FUTURE]
         // Special Condition Options -- Contributor Signature, Contributor Note, Collectible Cover Art
+        
+        
+        /**************************
+        * Set Up after Edit Segue *
+        **************************/
+        if (self.hasSeguedToEdit) {
+            titleLabel.text = self.titleFromEdit
+            authorLabel.text = self.authorFromEdit
+            editionLabel.text = self.editionFromEdit
+            print("PriceFromEdit: \(self.priceFromEdit)")
+            priceField.insertText(self.priceFromEdit)
+        }
     }
     
     
@@ -87,15 +105,15 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 print("Error getting documents: \(err)")
             } else if (querySnapshot!.documents.count == 0) {
                 print("Book not found")
-                self.TitleField.text = "(Book unknown)"
-                self.AuthorField.text = "(Author unknown)"
-                self.EditionField.text = "(Edition unknown)"
+                self.titleLabel.text = "(Book unknown)"
+                self.authorLabel.text = "(Author unknown)"
+                self.editionLabel.text = "(Edition unknown)"
             } else {
                 self.hasISBN = true
                 self.book_id = querySnapshot!.documents[0].documentID
-                self.TitleField.text = querySnapshot!.documents[0]["title"] as? String ?? ""
-                self.AuthorField.text = querySnapshot!.documents[0]["author"] as? String ?? ""
-                self.EditionField.text = querySnapshot!.documents[0]["edition"] as? String ?? ""
+                self.titleLabel.text = querySnapshot!.documents[0]["title"] as? String ?? ""
+                self.authorLabel.text = querySnapshot!.documents[0]["author"] as? String ?? ""
+                self.editionLabel.text = querySnapshot!.documents[0]["edition"] as? String ?? ""
             }
         }
     }
@@ -173,9 +191,9 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     func addListing() -> Bool{
         if (self.hasISBN &&
             self.condition != ["(Physical)", "(Text)"] &&
-            !self.PriceField.text!.isEmpty &&
-            !self.LongitudeField.text!.isEmpty &&
-            !self.LatitudeField.text!.isEmpty
+            !self.priceField.text!.isEmpty &&
+            !self.longitudeField.text!.isEmpty &&
+            !self.latitudeField.text!.isEmpty
             )
         {
             print("All Fields filled")
@@ -184,9 +202,9 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             print("Empty Field(s). View has ...")
             print("ISBN? \(self.hasISBN)")
             print("Condition? \(self.condition != ["(Physical)", "(Text)"])")
-            print("Price? \(!self.PriceField.text!.isEmpty)")
-            print("Latitude? \(!self.LatitudeField.text!.isEmpty)")
-            print("Longitude? \(!self.LongitudeField.text!.isEmpty)")
+            print("Price? \(!self.priceField.text!.isEmpty)")
+            print("Latitude? \(!self.latitudeField.text!.isEmpty)")
+            print("Longitude? \(!self.longitudeField.text!.isEmpty)")
             return false
         }
         
@@ -226,7 +244,7 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
  
 extension AddBookViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
-        self.TitleField.text = code
+        self.titleLabel.text = code
         searchByISBN()
         controller.dismiss(animated: true, completion: nil)
     }

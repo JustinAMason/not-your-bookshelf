@@ -15,31 +15,33 @@ class BookshelvesViewController: UIViewController {
     /**********
     * Outlets *
     ***********/
-    
     @IBOutlet weak var stackViewNYB: UIStackView!
     @IBOutlet weak var stackViewYB: UIStackView!
     
     /************
-    * Variables *
-    *************/
-    
+    * Firestore *
+    ************/
     var db: Firestore!
     
-    var username: String = "demo_user" // HARD CODED
-    var user_id = "00o3tUgaYM297sZSVtdi"
+    /************
+    * User Info * // HARD CODED
+    ************/
+    var username: String = "demo_user"
+    var user_id: String = "00o3tUgaYM297sZSVtdi"
     
+    /******************
+    * State Variables *
+    *******************/
     var userListings: Array<Listing> = []
+    var userListingsLabels: [String] = []
+    var userListingsAuthors: [String] = []
+    var userListingsEdition: [String] = []
     var userBookmarks: Array<Listing> = []
-    
+    var userBookmarksLabels: [String] = []
+    var userBookmarksAuthors: [String] = []
+    var userBookmarksEdition: [String] = []
     var selectedBookTag: Int = 0
     //var isSelectedYourBook: Bool = true
-    
-    
-//    var yourBookLabels: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 spaces
-//    var notYourBookLabels: [String] = ["f1","f2","","","","",""] // 7 again
-//
-//    var sampleListings: [String] = ["Intro to Prog", "Linear Alg", "Intro to Analysis", "", "", "", ""] // 7 TOTAL
-//    var sampleFavorites: [String] = ["f1","f2","","","","",""] // 7 AGAIN
     
     var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
                                  UIColor(named: "bookRed")!,
@@ -54,13 +56,9 @@ class BookshelvesViewController: UIViewController {
         super.viewDidLoad()
         connectToDatabase()
         
-        populateYourBookshelf(username: username)
-        populateNotYourBookshelf(username: username)
-        
+        populateBookshelves(username: username)
         //populateYourBookshelf(username: username)
         //populateNotYourBookshelf(username: username)
-        
-        //view.backgroundColor = UIColor(white: 0.25, alpha: 1.0)
     }
     
     
@@ -81,51 +79,66 @@ class BookshelvesViewController: UIViewController {
     ************************/
     
     func makeBookButtonWithInfo(title:String, listing_id:String, indexOfListing: Int, isYourBook: Bool) -> UIButton {
-        print("Making button for... \(title)")
         let myButton = UIButton(type: UIButton.ButtonType.system)
         
-        myButton.titleLabel?.text = title
-        myButton.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2) // ROTATE TEXT
-        
+        myButton.setTitle(title, for: .normal)
+        myButton.setTitleColor(UIColor.white, for: .normal)
+        myButton.setTitleShadowColor(UIColor.black, for: .normal)
+        myButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         myButton.tag = indexOfListing // LISTING_ID -- MUST ACCESS THIS (INT), then USE TO ACCESS userListings[i].listing_id -- IN SEGUE
-        
         myButton.frame = CGRect(x: 60, y: 135, width: 120, height: 35) // will be IGNORED in stack view
         myButton.layer.cornerRadius = 4
         myButton.clipsToBounds = true
         myButton.showsTouchWhenHighlighted = true
-        
+        //myButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let number = Int.random(in: 0 ..< self.bookColors.count)
         myButton.backgroundColor = self.bookColors[number]
+        myButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2) // ROTATE
         
         if isYourBook {
-            myButton.addTarget(self, action: #selector(BookshelvesViewController.tapYourBook(sender:)), for: .touchUpInside)
+            myButton.addTarget(self, action: #selector(self.tapYourBook(sender:)), for: .touchUpInside)
         } else {
-            myButton.addTarget(self, action: #selector(BookshelvesViewController.tapNotYourBook(sender:)), for: .touchUpInside)
+            myButton.addTarget(self, action: #selector(self.tapNotYourBook(sender:)), for: .touchUpInside)
         }
         
         return myButton
     }
     
     @IBAction func tapYourBook(sender: UIButton) {
+        print("called YBSegue")
         selectedBookTag = sender.tag
-        presentingViewController?.performSegue(withIdentifier: "SegueToYourBook", sender: self)
+        self.performSegue(withIdentifier: "SegueToYourBook", sender: self)
     }
     
     @IBAction func tapNotYourBook(sender: UIButton) {
+        print("called NYBSegue")
         selectedBookTag = sender.tag
-        presentingViewController?.performSegue(withIdentifier: "SegueToNotYourBook", sender: self)
+        self.performSegue(withIdentifier: "SegueToNotYourBook", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("\n[Preparing for a segue...]")
         if segue.identifier == "SegueToYourBook" {
             let vc = segue.destination as? BookViewController
+            vc?.bookTitle = self.userListingsLabels[selectedBookTag]
+            vc?.author = self.userListingsAuthors[selectedBookTag]
+            vc?.edition = self.userListingsEdition[selectedBookTag]
+            vc?.condition = self.userListings[selectedBookTag].condition
             vc?.listing_id = self.userListings[selectedBookTag].listing_id
-            vc?.yourBook = true
+            vc?.price = self.userListings[selectedBookTag].price
+            vc?.meetup = self.userListings[selectedBookTag].latitude + ", " + self.userListings[selectedBookTag].longitude
+            vc?.isYourBook = true
         }
         if segue.identifier == "SegueToNotYourBook" {
             let vc = segue.destination as? BookViewController
+            vc?.bookTitle = self.userBookmarksLabels[selectedBookTag]
+            vc?.author = self.userBookmarksAuthors[selectedBookTag]
+            vc?.edition = self.userBookmarksEdition[selectedBookTag]
+            vc?.condition = self.userBookmarks[selectedBookTag].condition
             vc?.listing_id = self.userBookmarks[selectedBookTag].listing_id
-            vc?.yourBook = false
+            vc?.price = self.userBookmarks[selectedBookTag].price
+            vc?.meetup = self.userBookmarks[selectedBookTag].latitude + ", " + self.userBookmarks[selectedBookTag].longitude
+            vc?.isYourBook = false
         }
     }
     
@@ -134,38 +147,27 @@ class BookshelvesViewController: UIViewController {
     * Populating Bookshelves *
     **************************/
     
-    func populateYourBookshelf(username: String) {
-        
-        print("...Populating Your Bookshelf...")
-        
+    func populateBookshelves(username: String) {
         queryUserListings(username: username)
+        queryUserBookmarks(username: username)
         
-        print("...Queried Listings...")
-        
+        // 1 second later
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-            
-            print("Waited")
-            
-            if (!self.userListings.isEmpty) {
-                self.addBooksToStackView(listings: self.userListings, stack: self.stackViewYB, areYourBooks: true)
-                
-                print("...Stacked Listings...")
-                
-            }
-            return
+            self.queryTitles(listings: self.userListings, areYourBooks: true)
+            self.queryTitles(listings: self.userBookmarks, areYourBooks: false)
         })
         
-        print("--Populated Your Bookshelf--")
-    }
-    
-    func populateNotYourBookshelf(username: String) {
-        print("...Populating Not Your Bookshelf...")
-        queryUserBookmarks(username: username)
-        print("...Queried Bookmarks...")
-        if (!self.userBookmarks.isEmpty) {
-            addBooksToStackView(listings: self.userBookmarks, stack: self.stackViewNYB, areYourBooks: false)
-        }
-        print("--Populated Not Your Bookshelf--")
+        // 2 seconds later
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
+            if (!self.userListings.isEmpty) {
+                print("\nYour Books")
+                self.addBooksToStackView(listings: self.userListings, stack: self.stackViewYB, areYourBooks: true)
+            }
+            if (!self.userBookmarks.isEmpty) {
+                print("\nNot Your Books")
+                self.addBooksToStackView(listings: self.userBookmarks, stack: self.stackViewNYB, areYourBooks: false)
+            }
+        })
     }
     
     // BROKEN: function returns before database query does -- user_id is not assigned quick enough
@@ -191,13 +193,6 @@ class BookshelvesViewController: UIViewController {
             if let err = err { print("Error getting documents: \(err)") }
             else if (querySnapshot!.documents.count == 0) {
                 print("No Listings found with user_id = \(self.user_id)")
-                self.userListings.append(Listing( listing_id: "pHf79ePdtDfQ5X4FBrMO",
-                                                  book_id: "AqRPU9VrnGypaGJHxIIs",
-                                                  seller_id: "sample",
-                                                  price: "29.87",
-                                                  condition: "New or Like New, No Markings",
-                                                  latitude: "40.6882",
-                                                  longitude: "73.9542" ) )
             }
             else {
                 print("User Listing(s) found")
@@ -223,55 +218,79 @@ class BookshelvesViewController: UIViewController {
     }
     
     func queryUserBookmarks(username: String) {
-        let user_id = getUserID(username: self.username)
-        db.collection("favorites").whereField("seller_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
+        //let user_id = getUserID(username: self.username)
+        db.collection("favorites").whereField("user_id", isEqualTo: self.username).getDocuments() { (querySnapshot, err) in
             if let err = err { print("Error getting documents: \(err)") }
             else if (querySnapshot!.documents.count == 0) { print("No Bookmarks") }
             else {
                 print("User Bookmark(s) found")
                 for bookmark in querySnapshot!.documents {
-                    let listing_id = bookmark.documentID
-                    let book_id = bookmark["book_id"] as? String ?? ""
-                    let seller_id = bookmark["seller_id"] as? String ?? ""
-                    let price = bookmark["price"] as? String ?? ""
-                    let condition = bookmark["condition"] as? String ?? ""
-                    let latitude = bookmark["latitude"] as? String ?? ""
-                    let longitude = bookmark["longitude"] as? String ?? ""
-                    self.userBookmarks.append(Listing( listing_id: listing_id,
-                                                       book_id: book_id,
-                                                      seller_id: seller_id,
-                                                      price: price,
-                                                      condition: condition,
-                                                      latitude: latitude,
-                                                      longitude: longitude) )
+                    let bookmark_id = bookmark["listing_id"] as? String ?? ""
+                    self.db.collection("listings").document(bookmark_id).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            print("\tBookmarked Listing found")
+                            let listing_id = document.documentID
+                            print("\t\tbookmarkID: \(listing_id)")
+                            let book_id = document["book_id"] as? String ?? ""
+                            let seller_id = document["seller_id"] as? String ?? ""
+                            let price = document["price"] as? String ?? ""
+                            let condition = document["condition"] as? String ?? ""
+                            let latitude = document["latitude"] as? String ?? ""
+                            let longitude = document["longitude"] as? String ?? ""
+                            self.userBookmarks.append(Listing( listing_id: listing_id,
+                                                              book_id: book_id,
+                                                              seller_id: seller_id,
+                                                              price: price,
+                                                              condition: condition,
+                                                              latitude: latitude,
+                                                              longitude: longitude ) )
+                        } else { print("\tBookmarked Listing does not exist") }
+                    }
                 }
             }
         }
     }
     
-    func getTitle(book_id: String) -> String {
-        var title = ""
-        db.collection("books").document(book_id).getDocument { (document, error) in
-            if let document = document, document.exists {
-                print("Document found")
-                title = document["title"] as? String ?? ""
-            } else {
-                print("Document does not exist")
+    func queryTitles(listings: Array<Listing>, areYourBooks: Bool) {
+        for i in listings.indices {
+            let book_id = listings[i].book_id ?? ""
+            
+            db.collection("books").document(book_id).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    print("\tBook found")
+                    let title = document["title"] as? String ?? "(empty)"
+                    let author = document["author"] as? String ?? "(empty)"
+                    let edition = document["edition"] as? String ?? "(empty)"
+                    if (areYourBooks) {
+                        self.userListingsLabels.append(title)
+                        self.userListingsAuthors.append(author)
+                        self.userListingsEdition.append(edition)
+                    }
+                    else {
+                        self.userBookmarksLabels.append(title)
+                        self.userBookmarksAuthors.append(author)
+                        self.userBookmarksEdition.append(edition)
+                    }
+                } else { print("Book does not exist") }
             }
+            
         }
         
-        return title
     }
     
     func addBooksToStackView(listings: Array<Listing>, stack: UIStackView, areYourBooks: Bool) {
-        print("...Adding Books...")
+        print("Labels: \(userListingsLabels) and Listings: \(listings.count)")
+        
         for i in listings.indices {
+            
             let listing = listings[i]
-            let title = self.getTitle(book_id: listing.book_id)
-            print("Book Title: \(title)")
-            let bookButton = makeBookButtonWithInfo(title: title, listing_id: listing.listing_id, indexOfListing: i, isYourBook: areYourBooks)
-
+            var title = ""
+            if (areYourBooks) { title = userListingsLabels[i] }
+            else { title = userBookmarksLabels[i] }
+            let bookButton = self.makeBookButtonWithInfo(title: title, listing_id: listing.listing_id, indexOfListing: i, isYourBook: areYourBooks)
+            
             stack.addArrangedSubview(bookButton)
+            print("Book: \(bookButton.titleLabel?.text ?? "(defaulted)")")
         }
         
         // add spacer so books appear all to left

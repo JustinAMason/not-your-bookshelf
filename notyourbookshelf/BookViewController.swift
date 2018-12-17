@@ -30,7 +30,7 @@ class BookViewController: UIViewController {
     var listing_id: String!
     var price: String!
     var meetup: String!
-    var yourBook: Bool = false
+    var isYourBook: Bool = false
     
     func connectToDatabase() {
         db = Firestore.firestore()
@@ -45,7 +45,6 @@ class BookViewController: UIViewController {
         updateBookmark()
         
         //Listing(listing_id: listing_id, book_id: book_id, seller_id: username, price: price, condition: condition, latitude: latitude, longitude: longitude)
-        
         titleLabel.text = bookTitle;
         authorLabel.text = author;
         editionLabel.text = edition;
@@ -54,7 +53,7 @@ class BookViewController: UIViewController {
         meetupLabel.text = meetup;
         
         // Determine if Your Book or Not Your Book -- Set title, enable/disable Buy button, enable/disable bookmark or edit
-        if (self.yourBook) {
+        if (self.isYourBook) {
             self.bookmarkButton.setImage(UIImage(named: "Edit_Unfilled"), for: UIControl.State.normal);
             self.bookmarkButton.setImage(UIImage(named: "Edit_Filled"), for: UIControl.State.highlighted);
             navBar.title = "Your Book"
@@ -87,7 +86,7 @@ class BookViewController: UIViewController {
     
     func updateBookmark() {
         // Only if Not Your Book
-        if (!self.yourBook) {
+        if (!self.isYourBook) {
             db.collection("favorites")
                 .whereField("user_id", isEqualTo: "demo_user")
                 .whereField("listing_id", isEqualTo: listing_id)
@@ -102,12 +101,11 @@ class BookViewController: UIViewController {
     }
     
     @IBAction func favoriteListing() {
-        if (self.yourBook) {
+        if (self.isYourBook) {
             print("Segueing")
             // delete listing from Firebase
             
-            // segue to AddBookVC
-            presentingViewController?.performSegue(withIdentifier: "SegueToAddBook", sender: self)
+             presentedViewController?.performSegue(withIdentifier: "SegueToEditYourBook", sender: self)
         }
         else {
             print("Adding to Favorites")
@@ -141,10 +139,15 @@ class BookViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as? AddBookViewController
-        vc?.TitleField.text = self.bookTitle
-        vc?.AuthorField.text = self.author
-        vc?.EditionField.text = self.edition
-        vc?.PriceField.text = self.price
+        print("\n[Preparing for a segue...]")
+        if segue.identifier == "SegueToEditYourBook" {
+            let vc = segue.destination as? AddBookViewController
+            vc?.titleFromEdit = self.titleLabel.text ?? ""
+            vc?.authorFromEdit = self.authorLabel.text ?? ""
+            vc?.editionFromEdit = self.editionLabel.text ?? ""
+            vc?.priceFromEdit = self.priceAmtLabel.text ?? ""
+            //vc?.conditionFromEdit = self.
+            //vc?.latitudeFromEdit = self.meetupLabel.text
+        }
     }
 }

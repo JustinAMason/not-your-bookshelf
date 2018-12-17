@@ -32,6 +32,15 @@ class Listing {
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    /************
+    * User Info * // HARD CODED
+    ************/
+    var username: String = "demo_user"
+    var user_id: String = "00o3tUgaYM297sZSVtdi"
+    
+    /*********************
+    * Storyboard Outlets *
+    *********************/
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var numListingsLabel: UILabel!
@@ -39,14 +48,21 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var bookAuthor: UILabel!
     @IBOutlet weak var bookEdition: UILabel!
     
-    
+    /******************
+    * State Variables *
+    ******************/
     var db: Firestore!
     var listings: Array<Listing>!
     var curListingID: String!
     var curCondition: String = ""
     var curPrice: String = ""
     var curMeetup: String = ""
+    var isYourBook: Bool = false
     
+    
+    /************
+    * Load Time *
+    ************/
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
@@ -69,6 +85,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.curCondition = listings[(indexPath[1])].condition
         self.curPrice = listings[(indexPath[1])].price
         self.curMeetup = listings[(indexPath[1])].latitude + ", " + listings[(indexPath[1])].longitude
+        self.isYourBook = (listings[(indexPath[1])].seller_id == self.username)
     }
     
     func connectToDatabase() {
@@ -185,14 +202,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? BookViewController
-        vc?.bookTitle = bookTitle.text
-        vc?.author = bookAuthor.text
-        vc?.edition = bookEdition.text
+        vc?.bookTitle = self.bookTitle.text ?? ""
+        vc?.author = self.bookAuthor.text
+        vc?.edition = self.bookEdition.text
         vc?.condition = self.curCondition
         vc?.listing_id = self.curListingID
         vc?.price = self.curPrice
         vc?.meetup = self.curMeetup
-        vc?.yourBook = false
+        vc?.isYourBook = self.isYourBook
     }
     
 }
