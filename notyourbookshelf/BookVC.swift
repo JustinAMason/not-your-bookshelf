@@ -1,5 +1,5 @@
 //
-//  BookViewController.swift
+//  BookVC.swift
 //  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/3/18.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class BookViewController: UIViewController {
+class BookVC: UIViewController {
     
     var db: Firestore!
     
@@ -23,6 +23,15 @@ class BookViewController: UIViewController {
     @IBOutlet weak var optionButton: UIButton!
     @IBOutlet weak var priceAmtLabel: UILabel!
     
+    /************
+     * User Info * // HARD CODED
+     ************/
+    var username: String = "demo_user"
+    var user_id: String = "00o3tUgaYM297sZSVtdi"
+    
+    /************
+    * Variables *
+    ************/
     var listing_id: String!
     var book_id: String!
     var bookTitle: String!
@@ -33,6 +42,7 @@ class BookViewController: UIViewController {
     var latitude: String!
     var longitude: String!
     var isYourBook: Bool = false
+    
     
     func connectToDatabase() {
         db = Firestore.firestore()
@@ -89,7 +99,7 @@ class BookViewController: UIViewController {
         // Only if Not Your Book
         if (!self.isYourBook) {
             db.collection("favorites")
-                .whereField("user_id", isEqualTo: "demo_user")
+                .whereField("user_id", isEqualTo: self.user_id)
                 .whereField("listing_id", isEqualTo: listing_id)
                 .getDocuments() { (querySnapshot, err) in
                     if let err = err {
@@ -111,7 +121,7 @@ class BookViewController: UIViewController {
         else {
             print("Adding to Favorites")
             db.collection("favorites")
-            .whereField("user_id", isEqualTo: "demo_user")
+            .whereField("user_id", isEqualTo: self.user_id)
             .whereField("listing_id", isEqualTo: listing_id)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -127,7 +137,7 @@ class BookViewController: UIViewController {
     
     func addFavoriteToDatabase() {
         db.collection("favorites").addDocument(data: [
-            "user_id": "demo_user",
+            "user_id": self.user_id,
             "listing_id": self.listing_id
         ]) { err in
             if let err = err {
@@ -142,7 +152,7 @@ class BookViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("\n[Preparing for a segue...]")
         if segue.identifier == "SegueToEditYourBook" {
-            let vc = segue.destination as? AddBookViewController
+            let vc = segue.destination as? AddBookVC
             vc?.isEdit = true
             vc?.listing_idFromEdit = listing_id
             vc?.book_idFromEdit = book_id

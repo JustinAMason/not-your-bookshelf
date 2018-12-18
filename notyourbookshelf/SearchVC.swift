@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  SearchVC.swift
 //  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/2/18.
@@ -10,27 +10,7 @@ import UIKit
 import Firebase
 import BarcodeScanner
 
-class Listing {
-    var listing_id: String!
-    var book_id: String!
-    var seller_id: String!
-    var price: String!
-    var condition: String!
-    var latitude: String!
-    var longitude: String!
-    
-    init(listing_id: String, book_id: String, seller_id: String, price: String, condition: String, latitude: String, longitude: String) {
-        self.seller_id = seller_id
-        self.book_id = book_id
-        self.price = price
-        self.condition = condition
-        self.listing_id = listing_id
-        self.latitude = latitude
-        self.longitude = longitude
-    }
-}
-
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     /************
     * User Info * // HARD CODED
@@ -71,13 +51,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // If you need to delete listings, use this
         
-//        db.collection("listings").document("LISTING_ID").delete() { err in
+//        db.collection("favorites").document("2YalLBobdIkl4kTRoLN9").delete() { err in
 //            if let err = err {
 //                print("Error removing document: \(err)")
 //            } else {
 //                print("Document successfully removed!")
 //            }
 //        }
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,7 +196,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as? BookViewController
+        let vc = segue.destination as? BookVC
         vc?.listing_id = self.curListingID
         vc?.book_id = self.curBookID
         vc?.bookTitle = self.bookTitle.text ?? ""
@@ -230,7 +211,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
 }
 
-extension SearchViewController: BarcodeScannerCodeDelegate {
+extension SearchVC: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         self.textField.text = code
         searchByISBN()
@@ -238,13 +219,13 @@ extension SearchViewController: BarcodeScannerCodeDelegate {
     }
 }
 
-extension SearchViewController: BarcodeScannerErrorDelegate {
+extension SearchVC: BarcodeScannerErrorDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didReceiveError error: Error) {
         print(error)
     }
 }
 
-extension SearchViewController: BarcodeScannerDismissalDelegate {
+extension SearchVC: BarcodeScannerDismissalDelegate {
     func scannerDidDismiss(_ controller: BarcodeScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
     }

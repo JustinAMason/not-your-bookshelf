@@ -13,7 +13,7 @@
         <!--Search-->
         <scene sceneID="WgC-ko-QKV">
             <objects>
-                <viewController title="Search" id="xNX-a7-SKe" customClass="SearchViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Search" id="xNX-a7-SKe" customClass="SearchVC" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xhM-hN-AcF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,7 +141,7 @@
         <!--Meetups-->
         <scene sceneID="jOH-4M-u1n">
             <objects>
-                <viewController title="Meetups" id="tGl-jZ-fJj" customClass="MeetupsViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Meetups" id="tGl-jZ-fJj" customClass="MeetupsVC" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RBS-K1-L03">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,7 +174,7 @@
         <!--Bookshelves-->
         <scene sceneID="PPz-mO-MMI">
             <objects>
-                <viewController title="Bookshelves" id="zaA-eR-Jeg" customClass="BookshelvesViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Bookshelves" id="zaA-eR-Jeg" customClass="BookshelvesVC" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Zoi-m7-HYn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -332,7 +332,7 @@
         <!--Add Book-->
         <scene sceneID="w0K-ss-Xcw">
             <objects>
-                <viewController title="Add Book" id="nlp-X8-TMW" customClass="AddBookViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Add Book" id="nlp-X8-TMW" customClass="AddBookVC" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ez4-0x-vcQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -534,7 +534,7 @@
         <!--Book-->
         <scene sceneID="Lpa-9y-0Td">
             <objects>
-                <viewController title="Book" id="KIs-dp-Xlz" customClass="BookViewController" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Book" id="KIs-dp-Xlz" customClass="BookVC" customModule="notyourbookshelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jPf-dG-CrZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -676,7 +676,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ptu-SN-Jtw"/>
+        <segue reference="7fx-p5-RIT"/>
         <segue reference="tN1-iC-47f"/>
     </inferredMetricsTieBreakers>
 </document>

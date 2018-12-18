@@ -1,5 +1,5 @@
 //
-//  AddBookViewController.swift
+//  AddBookVCswift
 //  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/3/18.
@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import BarcodeScanner
 
-class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class AddBookVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
@@ -36,6 +36,12 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var isbn: String = ""
     var book_id: String = ""
     var listingRef: DocumentReference? = nil
+    
+    /************
+     * User Info * // HARD CODED
+     ************/
+    var username: String = "demo_user"
+    var user_id: String = "00o3tUgaYM297sZSVtdi"
     
     /**********************************
     * Info for Fields from Edit Segue *
@@ -263,7 +269,7 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             "latitude": self.latitudeField.text!,
             "longitude": self.longitudeField.text!,
             "price": self.priceField.text!,
-            "seller_id": "00o3tUgaYM297sZSVtdi" // HARD CODED -- [FUTURE] dynamic
+            "seller_id": self.user_id
         ]) { err in
             if let err = err{
                 print("Error adding document: \(err)")
@@ -318,7 +324,7 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
 * BarcodeScanner Extensions *
 ****************************/
  
-extension AddBookViewController: BarcodeScannerCodeDelegate {
+extension AddBookVC: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         self.titleLabel.text = code
         searchByISBN()
@@ -326,13 +332,13 @@ extension AddBookViewController: BarcodeScannerCodeDelegate {
     }
 }
 
-extension AddBookViewController: BarcodeScannerErrorDelegate {
+extension AddBookVC: BarcodeScannerErrorDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didReceiveError error: Error) {
         print(error)
     }
 }
 
-extension AddBookViewController: BarcodeScannerDismissalDelegate {
+extension AddBookVC: BarcodeScannerDismissalDelegate {
     func scannerDidDismiss(_ controller: BarcodeScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
     }

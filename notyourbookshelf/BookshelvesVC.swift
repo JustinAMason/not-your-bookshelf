@@ -1,5 +1,5 @@
 //
-//  BookshelvesViewController.swift
+//  BookshelvesVC.swift
 //  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/2/18.
@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import CoreGraphics
 
-class BookshelvesViewController: UIViewController {
+class BookshelvesVC: UIViewController {
 
     /**********
     * Outlets *
@@ -33,34 +33,48 @@ class BookshelvesViewController: UIViewController {
     * State Variables *
     *******************/
     var userListings: Array<Listing> = []
-    var userListingsLabels: [String] = []
-    var userListingsAuthors: [String] = []
-    var userListingsEdition: [String] = []
+    var userBooksListed: Array<Book> = []
     var userBookmarks: Array<Listing> = []
-    var userBookmarksLabels: [String] = []
-    var userBookmarksAuthors: [String] = []
-    var userBookmarksEdition: [String] = []
+    var userBooksBookmarked: Array<Book> = []
+    var userPurchases: Array<Listing> = []
     var selectedBookTag: Int = 0
-    //var isSelectedYourBook: Bool = true
     
-    var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
-                                 UIColor(named: "bookRed")!,
-                                 UIColor(named: "bookGreen")!,
-                                 UIColor(named: "bookPurple")!]
+    var bookColors: [UIColor] = [UIColor.black]
+//    var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
+//                                 UIColor(named: "bookRed")!,
+//                                 UIColor(named: "bookGreen")!,
+//                                 UIColor(named: "bookPurple")!]
     
     /************
-    * Load Time *
+    * Load Time * // calls viewLoadSetup so that everytime the user sees this VC, the bookshelves will reload -- ensures deleting, adding, bookmarking listings will be reflected
     ************/
+    var isLoadingViewController = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
-        
-        populateBookshelves(username: username)
-        //populateYourBookshelf(username: username)
-        //populateNotYourBookshelf(username: username)
+        isLoadingViewController = true
+        viewLoadSetup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isLoadingViewController {
+            isLoadingViewController = false
+        } else {
+            viewLoadSetup()
+        }
+    }
+    
+    func viewLoadSetup(){
+        userListings = []
+        userBooksListed = []
+        userBookmarks = []
+        userBooksBookmarked = []
+        userPurchases = []
+        populateBookshelves(user_id: user_id)
+    }
     
     /**********************
     * Firebase connection *
@@ -119,10 +133,10 @@ class BookshelvesViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("\n[Preparing for a segue...]")
         if segue.identifier == "SegueToYourBook" {
-            let vc = segue.destination as? BookViewController
-            vc?.bookTitle = self.userListingsLabels[selectedBookTag]
-            vc?.author = self.userListingsAuthors[selectedBookTag]
-            vc?.edition = self.userListingsEdition[selectedBookTag]
+            let vc = segue.destination as? BookVC
+            vc?.bookTitle = self.userBooksListed[selectedBookTag].title
+            vc?.author = self.userBooksListed[selectedBookTag].author
+            vc?.edition = self.userBooksListed[selectedBookTag].edition
             vc?.condition = self.userListings[selectedBookTag].condition
             vc?.listing_id = self.userListings[selectedBookTag].listing_id
             vc?.price = self.userListings[selectedBookTag].price
@@ -131,10 +145,10 @@ class BookshelvesViewController: UIViewController {
             vc?.isYourBook = true
         }
         if segue.identifier == "SegueToNotYourBook" {
-            let vc = segue.destination as? BookViewController
-            vc?.bookTitle = self.userBookmarksLabels[selectedBookTag]
-            vc?.author = self.userBookmarksAuthors[selectedBookTag]
-            vc?.edition = self.userBookmarksEdition[selectedBookTag]
+            let vc = segue.destination as? BookVC
+            vc?.bookTitle = self.userBooksBookmarked[selectedBookTag].title
+            vc?.author = self.userBooksBookmarked[selectedBookTag].author
+            vc?.edition = self.userBooksBookmarked[selectedBookTag].edition
             vc?.condition = self.userBookmarks[selectedBookTag].condition
             vc?.listing_id = self.userBookmarks[selectedBookTag].listing_id
             vc?.price = self.userBookmarks[selectedBookTag].price
@@ -149,9 +163,9 @@ class BookshelvesViewController: UIViewController {
     * Populating Bookshelves *
     **************************/
     
-    func populateBookshelves(username: String) {
-        queryUserListings(username: username)
-        queryUserBookmarks(username: username)
+    func populateBookshelves(user_id: String) {
+        queryUserListings(user_id: user_id)
+        queryUserBookmarks(user_id: user_id)
         
         // 1 second later
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
@@ -163,44 +177,25 @@ class BookshelvesViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             if (!self.userListings.isEmpty) {
                 print("\nYour Books")
-                self.addBooksToStackView(listings: self.userListings, stack: self.stackViewYB, areYourBooks: true)
+                self.addBooksToStackView(listings: self.userListings, books: self.userBooksListed, stack: self.stackViewYB, areYourBooks: true)
             }
             if (!self.userBookmarks.isEmpty) {
                 print("\nNot Your Books")
-                self.addBooksToStackView(listings: self.userBookmarks, stack: self.stackViewNYB, areYourBooks: false)
+                self.addBooksToStackView(listings: self.userBookmarks, books: self.userBooksBookmarked, stack: self.stackViewNYB, areYourBooks: false)
             }
         })
     }
     
-    // BROKEN: function returns before database query does -- user_id is not assigned quick enough
-    func getUserID(username: String) -> String {
-        var user_id = ""
-        db.collection("users").whereField("username", isEqualTo: username).getDocuments() { (querySnapshot, err) in
-            if let err = err { print("Error getting documents: \(err)") }
-            else if (querySnapshot!.documents.count == 0) { print("No users") }
-            else {
-                print("User Found") // Should be unique (because usernames would be unique)
-                user_id = querySnapshot!.documents[0].documentID
-                print("\twithID: \(user_id)")
-            }
-        }
-        print("\treturning: \(user_id)")
-        return user_id
-    }
-    
-    func queryUserListings(username: String) {
-        //let user_id = getUserID(username: self.username)
+    func queryUserListings(user_id: String) {
         
-        db.collection("listings").whereField("seller_id", isEqualTo: self.user_id).getDocuments() { (querySnapshot, err) in
+        db.collection("listings").whereField("seller_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
             if let err = err { print("Error getting documents: \(err)") }
-            else if (querySnapshot!.documents.count == 0) {
-                print("No Listings found with user_id = \(self.user_id)")
-            }
+            else if (querySnapshot!.documents.count == 0) { print("\n**\nNo Listings found for user_id = \(user_id)") }
             else {
-                print("User Listing(s) found")
+                print("\n**\nListing(s) found for user_id = \(user_id)")
                 for listing in querySnapshot!.documents {
                     let listing_id = listing.documentID
-                    print("\tlistingID: \(listing_id)")
+                    //print("\tlistingID: \(listing_id)")
                     let book_id = listing["book_id"] as? String ?? ""
                     let seller_id = listing["seller_id"] as? String ?? ""
                     let price = listing["price"] as? String ?? ""
@@ -219,20 +214,18 @@ class BookshelvesViewController: UIViewController {
         }
     }
     
-    func queryUserBookmarks(username: String) {
-        //let user_id = getUserID(username: self.username)
-        db.collection("favorites").whereField("user_id", isEqualTo: self.username).getDocuments() { (querySnapshot, err) in
+    func queryUserBookmarks(user_id: String) {
+        db.collection("favorites").whereField("user_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
             if let err = err { print("Error getting documents: \(err)") }
-            else if (querySnapshot!.documents.count == 0) { print("No Bookmarks") }
+            else if (querySnapshot!.documents.count == 0) { print("\n**\nNo Bookmark(s) found for user_id = \(user_id)") }
             else {
-                print("User Bookmark(s) found")
+                print("\n**\nBookmark(s) found for user_id = \(user_id)")
                 for bookmark in querySnapshot!.documents {
                     let bookmark_id = bookmark["listing_id"] as? String ?? ""
                     self.db.collection("listings").document(bookmark_id).getDocument { (document, error) in
                         if let document = document, document.exists {
-                            print("\tBookmarked Listing found")
                             let listing_id = document.documentID
-                            print("\t\tbookmarkID: \(listing_id)")
+                            //print("\t\tbookmarkID: \(listing_id)")
                             let book_id = document["book_id"] as? String ?? ""
                             let seller_id = document["seller_id"] as? String ?? ""
                             let price = document["price"] as? String ?? ""
@@ -246,7 +239,16 @@ class BookshelvesViewController: UIViewController {
                                                               condition: condition,
                                                               latitude: latitude,
                                                               longitude: longitude ) )
-                        } else { print("\tBookmarked Listing does not exist") }
+                        } else {
+                            print("\tBookmarked Listing does not exist...deleting bookmark")
+                            self.db.collection("favorites").document(bookmark.documentID).delete(){ err in
+                                if let err = err {
+                                    print("Error removing bookmark: \(err)")
+                                } else {
+                                    print("Bookmark successfully removed!")
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -259,19 +261,22 @@ class BookshelvesViewController: UIViewController {
             
             db.collection("books").document(book_id).getDocument { (document, error) in
                 if let document = document, document.exists {
-                    print("\tBook found")
-                    let title = document["title"] as? String ?? "(empty)"
                     let author = document["author"] as? String ?? "(empty)"
                     let edition = document["edition"] as? String ?? "(empty)"
+                    let isbn = document["isbn"] as? String ?? "(empty)"
+                    let title = document["title"] as? String ?? "(empty)"
+                    print("\tBook found with title = \(title)")
                     if (areYourBooks) {
-                        self.userListingsLabels.append(title)
-                        self.userListingsAuthors.append(author)
-                        self.userListingsEdition.append(edition)
+                        self.userBooksListed.append(Book( author: author,
+                                                          edition: edition,
+                                                          isbn: isbn,
+                                                          title: title ))
                     }
                     else {
-                        self.userBookmarksLabels.append(title)
-                        self.userBookmarksAuthors.append(author)
-                        self.userBookmarksEdition.append(edition)
+                        self.userBooksBookmarked.append(Book( author: author,
+                                                              edition: edition,
+                                                              isbn: isbn,
+                                                              title: title ))
                     }
                 } else { print("Book does not exist") }
             }
@@ -280,16 +285,12 @@ class BookshelvesViewController: UIViewController {
         
     }
     
-    func addBooksToStackView(listings: Array<Listing>, stack: UIStackView, areYourBooks: Bool) {
-        print("Labels: \(userListingsLabels) and Listings: \(listings.count)")
-        
+    func addBooksToStackView(listings: Array<Listing>, books: Array<Book>, stack: UIStackView, areYourBooks: Bool) {
+        print("Listings: \(listings.count), and Books: \(books.count)  ")
         for i in listings.indices {
-            
             let listing = listings[i]
-            var title = ""
-            if (areYourBooks) { title = userListingsLabels[i] }
-            else { title = userBookmarksLabels[i] }
-            let bookButton = self.makeBookButtonWithInfo(title: title, listing_id: listing.listing_id, indexOfListing: i, isYourBook: areYourBooks)
+            let title = books[i].title
+            let bookButton = self.makeBookButtonWithInfo(title: title!, listing_id: listing.listing_id, indexOfListing: i, isYourBook: areYourBooks)
             
             stack.addArrangedSubview(bookButton)
             print("Book: \(bookButton.titleLabel?.text ?? "(defaulted)")")

@@ -1,5 +1,5 @@
 //
-//  MeetupsViewController.swift
+//  MeetupsVC.swift
 //  Not Your Bookshelf
 //
 //  Created by William Kelley on 12/2/18.
@@ -63,7 +63,7 @@ class MeetupMarkerView: MKMarkerAnnotationView {
     }
 }
 
-class MeetupsViewController: UIViewController {
+class MeetupsVC: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -174,7 +174,7 @@ class MeetupsViewController: UIViewController {
     
 }
 
-extension MeetupsViewController: MKMapViewDelegate {
+extension MeetupsVC: MKMapViewDelegate {
 //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 //        guard let annotation = annotation as? Meetup else { return nil }
 //        let identifier = "marker"
