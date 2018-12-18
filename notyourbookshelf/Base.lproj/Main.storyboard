@@ -341,10 +341,10 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Add Book Listing" id="IHw-PF-i0b">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="V7I-qE-r9W">
+                                    <navigationItem title="[Add/Edit Book Listing]" id="IHw-PF-i0b">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="7Bl-AK-VIp">
                                             <connections>
-                                                <action selector="backPress:" destination="nlp-X8-TMW" id="vUm-WP-q24"/>
+                                                <action selector="backPress:" destination="nlp-X8-TMW" id="nLa-vj-tCC"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="AVm-c7-2C8">
@@ -495,6 +495,15 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70C-cC-q0u">
+                                <rect key="frame" x="309" y="597" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Button" image="Trash"/>
+                                <connections>
+                                    <action selector="deletePress:" destination="nlp-X8-TMW" eventType="touchUpInside" id="yI5-ig-pAx"/>
+                                    <action selector="favoriteListing" destination="KIs-dp-Xlz" eventType="touchUpInside" id="TuD-YT-wzb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sIZ-4W-osT"/>
@@ -502,18 +511,25 @@
                     <connections>
                         <outlet property="ISBNButton" destination="j37-cL-CBL" id="R71-dO-oLI"/>
                         <outlet property="ISBNField" destination="2p9-15-nUH" id="o15-vl-EHZ"/>
+                        <outlet property="ISBNHeaderLabel" destination="NQo-Gg-qpg" id="WQH-Nw-bHO"/>
+                        <outlet property="ISBNSeperatorLabel" destination="jy8-7e-13Y" id="qag-yp-rce"/>
                         <outlet property="PickerView" destination="VGO-uC-dlG" id="1Or-AF-EVU"/>
                         <outlet property="authorLabel" destination="cOM-hC-UIL" id="Wh8-qd-x9O"/>
+                        <outlet property="backBarButtonItem" destination="7Bl-AK-VIp" id="I60-hg-rAd"/>
+                        <outlet property="deleteButton" destination="70C-cC-q0u" id="99l-N7-lmJ"/>
+                        <outlet property="doneBarButtonItem" destination="AVm-c7-2C8" id="CEw-HH-Zt4"/>
                         <outlet property="editionLabel" destination="PhK-02-5Fi" id="lpx-LY-5cC"/>
                         <outlet property="latitudeField" destination="oEZ-Cg-6Qe" id="d6G-un-3TX"/>
                         <outlet property="longitudeField" destination="bxa-af-Tnl" id="0wx-rL-mbJ"/>
+                        <outlet property="navBar" destination="IHw-PF-i0b" id="Fp7-us-Spc"/>
                         <outlet property="priceField" destination="uj2-qo-aj6" id="M6I-eC-vSq"/>
+                        <outlet property="scanButton" destination="vxD-qC-eW5" id="DWh-2G-9bG"/>
                         <outlet property="titleLabel" destination="zby-Ac-Q0u" id="aEn-IH-aM1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Poq-SV-KX7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1897" y="770"/>
+            <point key="canvasLocation" x="1896.8" y="769.56521739130437"/>
         </scene>
         <!--Book-->
         <scene sceneID="Lpa-9y-0Td">
@@ -527,7 +543,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="(Not) Your Book" id="6DA-0S-EzN">
+                                    <navigationItem title="[(Not) Your Book]" id="6DA-0S-EzN">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="shj-zx-mfU">
                                             <connections>
                                                 <action selector="backPress:" destination="KIs-dp-Xlz" id="GJF-Cj-dML"/>
@@ -593,7 +609,7 @@
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8l-Mi-VlR">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8l-Mi-VlR">
                                 <rect key="frame" x="302" y="586" width="57" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="Button" image="Bookmark_Unfilled"/>
@@ -632,12 +648,12 @@
                     </view>
                     <connections>
                         <outlet property="authorLabel" destination="cbv-e3-cMx" id="5mH-1r-nVo"/>
-                        <outlet property="bookmarkButton" destination="D8l-Mi-VlR" id="bav-Eb-gIT"/>
                         <outlet property="conditionLabel" destination="Hre-bu-VFd" id="Rql-KT-5e6"/>
                         <outlet property="editionLabel" destination="iM4-F7-rme" id="x4x-zY-ogP"/>
                         <outlet property="meetupLabel" destination="Yhv-6a-bQC" id="flF-Bp-rFu"/>
-                        <outlet property="navBar" destination="6DA-0S-EzN" id="R2N-n1-MEF"/>
+                        <outlet property="navBar" destination="6DA-0S-EzN" id="NzW-UZ-7Gr"/>
                         <outlet property="navBarRightButton" destination="8zq-ia-v9n" id="Tdd-fr-t0v"/>
+                        <outlet property="optionButton" destination="D8l-Mi-VlR" id="LlQ-1T-M60"/>
                         <outlet property="priceAmtLabel" destination="5jN-NN-Sxb" id="PMr-P5-SHW"/>
                         <outlet property="titleLabel" destination="BpT-WV-vqx" id="zVQ-hD-Q7z"/>
                     </connections>
@@ -654,6 +670,7 @@
         <image name="MapMarker" width="30" height="30"/>
         <image name="Plus" width="375" height="375"/>
         <image name="Search" width="16" height="16"/>
+        <image name="Trash" width="30" height="30"/>
         <namedColor name="bookshelfBrown">
             <color red="0.56699997186660767" green="0.34299999475479126" blue="0.20499999821186066" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

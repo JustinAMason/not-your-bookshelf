@@ -126,7 +126,8 @@ class BookshelvesViewController: UIViewController {
             vc?.condition = self.userListings[selectedBookTag].condition
             vc?.listing_id = self.userListings[selectedBookTag].listing_id
             vc?.price = self.userListings[selectedBookTag].price
-            vc?.meetup = self.userListings[selectedBookTag].latitude + ", " + self.userListings[selectedBookTag].longitude
+            vc?.latitude = self.userListings[selectedBookTag].latitude
+            vc?.longitude = self.userListings[selectedBookTag].longitude
             vc?.isYourBook = true
         }
         if segue.identifier == "SegueToNotYourBook" {
@@ -137,7 +138,8 @@ class BookshelvesViewController: UIViewController {
             vc?.condition = self.userBookmarks[selectedBookTag].condition
             vc?.listing_id = self.userBookmarks[selectedBookTag].listing_id
             vc?.price = self.userBookmarks[selectedBookTag].price
-            vc?.meetup = self.userBookmarks[selectedBookTag].latitude + ", " + self.userBookmarks[selectedBookTag].longitude
+            vc?.latitude = self.userListings[selectedBookTag].latitude
+            vc?.longitude = self.userListings[selectedBookTag].longitude
             vc?.isYourBook = false
         }
     }

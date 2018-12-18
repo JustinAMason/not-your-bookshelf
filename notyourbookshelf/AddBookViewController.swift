@@ -12,6 +12,12 @@ import BarcodeScanner
 
 class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    @IBOutlet weak var navBar: UINavigationItem!
+    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var ISBNHeaderLabel: UILabel!
+    @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var ISBNSeperatorLabel: UILabel!
     @IBOutlet weak var PickerView: UIPickerView!
     @IBOutlet weak var ISBNButton: UIButton!
     @IBOutlet weak var ISBNField: UITextField!
@@ -21,6 +27,7 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var latitudeField: UITextField!
     @IBOutlet weak var longitudeField: UITextField!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var pickerData: [[String]] = [[String]]()
     var condition: [String] = ["(Physical)", "(Text)"]
@@ -33,12 +40,15 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     /**********************************
     * Info for Fields from Edit Segue *
     **********************************/
-    var hasSeguedToEdit: Bool = false
+    var isEdit: Bool = false
+    var listing_idFromEdit: String = ""
+    var book_idFromEdit: String = ""
     var titleFromEdit: String = ""
     var authorFromEdit: String = ""
     var editionFromEdit: String = ""
     var priceFromEdit: String = ""
-    // need to set up something to display condition in pv
+    var physicalConditionFromEdit: String = ""
+    var textualConditionFromEdit: String = ""
     var latitudeFromEdit: String = ""
     var longitudeFromEdit: String = ""
     
@@ -49,24 +59,46 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
 
         connectToDatabase()
         
-        // Connecting PickerView, setting Condition Options
+        
+        
+        
+        /*********
+        * Set Up *
+        *********/
+        navBar.title = "Add Book Listing"
+        backBarButtonItem.isEnabled = true
         self.PickerView.delegate = self
         self.PickerView.dataSource = self
         pickerData = [ ["(Physical)", "New or Like New", "Lightly Used", "Heavily Used"],
                        ["(Text)", "No Markings", "Light Marking", "Heavy Marking"] ]
-        // [FUTURE]
-        // Special Condition Options -- Contributor Signature, Contributor Note, Collectible Cover Art
+        // [FUTURE] Special Condition Options -- Contributor Signature, Contributor Note, Collectible Cover Art
+        deleteButton.isEnabled = false
+        deleteButton.isHidden = true
         
+        // EDITING
         
-        /**************************
-        * Set Up after Edit Segue *
-        **************************/
-        if (self.hasSeguedToEdit) {
+        if (self.isEdit) {
+            navBar.title = "Edit Book Listing"
+            ISBNHeaderLabel.isHidden = true
+            scanButton.isHidden = true
+            ISBNSeperatorLabel.isHidden = true
+            ISBNField.isHidden = true
+            ISBNButton.isHidden = true
             titleLabel.text = self.titleFromEdit
             authorLabel.text = self.authorFromEdit
             editionLabel.text = self.editionFromEdit
-            print("PriceFromEdit: \(self.priceFromEdit)")
+            condition[0] = physicalConditionFromEdit
+            condition[1] = textualConditionFromEdit
+            let indexOfSelectedPhysical = pickerData[0].firstIndex(of: self.physicalConditionFromEdit)
+            let indexOfSelectedTextual = pickerData[1].firstIndex(of: self.textualConditionFromEdit)
+            PickerView.selectRow(indexOfSelectedPhysical!, inComponent:0, animated:true)
+            PickerView.selectRow(indexOfSelectedTextual!, inComponent:1, animated:true)
             priceField.insertText(self.priceFromEdit)
+            latitudeField.insertText(self.latitudeFromEdit)
+            longitudeField.insertText(self.longitudeFromEdit)
+            backBarButtonItem.isEnabled = false
+            deleteButton.isEnabled = true
+            deleteButton.isHidden = false
         }
     }
     
@@ -167,23 +199,40 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     
-    /**********************
-    * Back and Done Press *
-    **********************/
+    /*****************
+    * Button Presses *
+    *****************/
     
-    // pressing back
+    // pressing Back
     @IBAction func backPress(_ sender: Any) {
         presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    
-    // pressing done
+    // pressing Done -- Add if not editing; Update if editing
     @IBAction func donePress(_ sender: Any) {
-        if (addListing()) {
-            presentingViewController?.dismiss(animated: true, completion: nil)
+        if (!isEdit) {
+            if (addListing()) {
+                presentingViewController?.dismiss(animated: true, completion: nil)
+            } else {
+                print("Failed to addListing()")
+            }
+        } else {
+            if (editListing()) {
+                presentingViewController?.dismiss(animated: true, completion: nil)
+                presentingViewController?.dismiss(animated: true, completion: nil)
+            } else {
+                print("Failed to editListing()")
+            }
         }
-        else {
-            print("addListing() failed")
+    }
+    
+    // pressing Delete
+    @IBAction func deletePress(_ sender: Any) {
+        if (deleteListing()) {
+            presentingViewController?.dismiss(animated: true, completion: nil)
+            presentingViewController?.dismiss(animated: true, completion: nil)
+        } else {
+            print("Failed to deleteListing()")
         }
     }
     
@@ -211,10 +260,10 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         listingRef = db.collection("listings").addDocument(data: [
             "book_id": self.book_id,
             "condition": self.condition[0] + ", " + self.condition[1],
-            "latitude": Int(self.LatitudeField.text!) ?? 0,
-            "longitude": Int(self.LongitudeField.text!) ?? 0,
-            "price": self.PriceField.text!,
-            "seller_id": "demo_user" // HARD CODED -- [FUTURE] dynamic
+            "latitude": self.latitudeField.text!,
+            "longitude": self.longitudeField.text!,
+            "price": self.priceField.text!,
+            "seller_id": "00o3tUgaYM297sZSVtdi" // HARD CODED -- [FUTURE] dynamic
         ]) { err in
             if let err = err{
                 print("Error adding document: \(err)")
@@ -222,9 +271,36 @@ class AddBookViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 print("Document added with ID: \(self.listingRef!.documentID)")
             }
         }
+        
         return true
     }
     
+    func editListing() -> Bool{
+        db.collection("listings").document(self.listing_idFromEdit).updateData([
+            "condition": self.condition[0] + ", " + self.condition[1],
+            "latitude": self.latitudeField.text!,
+            "longitude": self.longitudeField.text!,
+            "price": self.priceField.text!
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+        return true
+    }
+    
+    func deleteListing() -> Bool{
+        db.collection("listings").document(self.listing_idFromEdit).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+        return true
+    }
 
     /*
     // MARK: - Navigation

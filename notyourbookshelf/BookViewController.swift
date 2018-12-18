@@ -20,16 +20,18 @@ class BookViewController: UIViewController {
     @IBOutlet weak var editionLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var meetupLabel: UILabel!
-    @IBOutlet weak var bookmarkButton: UIButton!
+    @IBOutlet weak var optionButton: UIButton!
     @IBOutlet weak var priceAmtLabel: UILabel!
     
+    var listing_id: String!
+    var book_id: String!
     var bookTitle: String!
     var author: String!
     var edition: String!
     var condition: String!
-    var listing_id: String!
     var price: String!
-    var meetup: String!
+    var latitude: String!
+    var longitude: String!
     var isYourBook: Bool = false
     
     func connectToDatabase() {
@@ -50,23 +52,22 @@ class BookViewController: UIViewController {
         editionLabel.text = edition;
         conditionLabel.text = condition;
         priceAmtLabel.text = price;
-        meetupLabel.text = meetup;
+        meetupLabel.text = latitude + ", " + longitude;
         
         // Determine if Your Book or Not Your Book -- Set title, enable/disable Buy button, enable/disable bookmark or edit
         if (self.isYourBook) {
-            self.bookmarkButton.setImage(UIImage(named: "Edit_Unfilled"), for: UIControl.State.normal);
-            self.bookmarkButton.setImage(UIImage(named: "Edit_Filled"), for: UIControl.State.highlighted);
             navBar.title = "Your Book"
             navBarRightButton.isEnabled = false
-            
-            // TODO: Enable and Unhide Delete button
+            optionButton.isEnabled = true
+            optionButton.setImage(UIImage(named: "Edit_Unfilled"), for: UIControl.State.normal);
+            optionButton.setImage(UIImage(named: "Edit_Filled"), for: UIControl.State.highlighted);
         }
         else {
-            self.bookmarkButton.setImage(UIImage(named: "Bookmark_Unfilled"), for: UIControl.State.normal);
             navBar.title = "Not Your Book"
             navBarRightButton.isEnabled = true
-            
-            // TODO: Disable and Hide Delete button
+            optionButton.isEnabled = true
+            optionButton.setImage(UIImage(named: "Bookmark_Unfilled"), for: UIControl.State.normal)
+            //optionButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.highlighted);
         }
     }
     
@@ -94,7 +95,7 @@ class BookViewController: UIViewController {
                     if let err = err {
                         print("Error getting documents: \(err)");
                     } else if (querySnapshot!.documents.count > 0) {
-                        self.bookmarkButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
+                        self.optionButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
                     }
             }
         }
@@ -133,7 +134,7 @@ class BookViewController: UIViewController {
                 print("Error adding document: \(err)")
             } else {
                 print("Favorite added to database!")
-                self.bookmarkButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
+                self.optionButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
             }
         }
     }
@@ -142,12 +143,23 @@ class BookViewController: UIViewController {
         print("\n[Preparing for a segue...]")
         if segue.identifier == "SegueToEditYourBook" {
             let vc = segue.destination as? AddBookViewController
-            vc?.titleFromEdit = self.titleLabel.text ?? ""
-            vc?.authorFromEdit = self.authorLabel.text ?? ""
-            vc?.editionFromEdit = self.editionLabel.text ?? ""
-            vc?.priceFromEdit = self.priceAmtLabel.text ?? ""
-            //vc?.conditionFromEdit = self.
-            //vc?.latitudeFromEdit = self.meetupLabel.text
+            vc?.isEdit = true
+            vc?.listing_idFromEdit = listing_id
+            vc?.book_idFromEdit = book_id
+            vc?.titleFromEdit = bookTitle
+            vc?.authorFromEdit = author
+            vc?.editionFromEdit = edition
+            vc?.priceFromEdit = price
+            vc?.latitudeFromEdit = latitude
+            vc?.longitudeFromEdit = longitude
+            
+            let indexOfSeperator = condition.firstIndex(of: ",")
+            let indexOfSpace = condition.index(after:indexOfSeperator!)
+            let indexOfTextualCondition = condition.index(after:indexOfSpace)
+            let physicalCondition = String(condition.prefix(upTo: indexOfSeperator!))
+            let textualCondition = String(condition.suffix(from: indexOfTextualCondition))
+            vc?.physicalConditionFromEdit = physicalCondition
+            vc?.textualConditionFromEdit = textualCondition
         }
     }
 }

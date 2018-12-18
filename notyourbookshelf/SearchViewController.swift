@@ -53,10 +53,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     ******************/
     var db: Firestore!
     var listings: Array<Listing>!
-    var curListingID: String!
+    var curListingID: String = ""
+    var curBookID: String = ""
     var curCondition: String = ""
     var curPrice: String = ""
-    var curMeetup: String = ""
+    var curLatitude: String = ""
+    var curLongitude: String = ""
     var isYourBook: Bool = false
     
     
@@ -66,6 +68,16 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         connectToDatabase()
+        
+        // If you need to delete listings, use this
+        
+//        db.collection("listings").document("LISTING_ID").delete() { err in
+//            if let err = err {
+//                print("Error removing document: \(err)")
+//            } else {
+//                print("Document successfully removed!")
+//            }
+//        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,9 +94,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath as IndexPath) as! UITableViewCell;
         self.curListingID = listings[(indexPath[1])].listing_id
+        self.curBookID = listings[(indexPath[1])].book_id
         self.curCondition = listings[(indexPath[1])].condition
         self.curPrice = listings[(indexPath[1])].price
-        self.curMeetup = listings[(indexPath[1])].latitude + ", " + listings[(indexPath[1])].longitude
+        self.curLatitude = listings[(indexPath[1])].latitude
+        self.curLongitude = listings[(indexPath[1])].longitude
         self.isYourBook = (listings[(indexPath[1])].seller_id == self.username)
     }
     
@@ -202,13 +216,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? BookViewController
+        vc?.listing_id = self.curListingID
+        vc?.book_id = self.curBookID
         vc?.bookTitle = self.bookTitle.text ?? ""
         vc?.author = self.bookAuthor.text
         vc?.edition = self.bookEdition.text
         vc?.condition = self.curCondition
-        vc?.listing_id = self.curListingID
         vc?.price = self.curPrice
-        vc?.meetup = self.curMeetup
+        vc?.latitude = self.curLatitude
+        vc?.longitude = self.curLongitude
         vc?.isYourBook = self.isYourBook
     }
     
