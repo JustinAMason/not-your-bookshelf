@@ -19,6 +19,7 @@
 		A74CA6CB21B5CE90004E1BAC /* BookshelvesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C521B5CE90004E1BAC /* BookshelvesVC.swift */; };
 		A74CA6CC21B5CE90004E1BAC /* AddBookVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74CA6C621B5CE90004E1BAC /* AddBookVC.swift */; };
 		A7F0CF3721C8A0D20080E8F9 /* AddonClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F0CF3621C8A0D20080E8F9 /* AddonClasses.swift */; };
+		A7F0CF7521CA2FE30080E8F9 /* TestingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F0CF7421CA2FE30080E8F9 /* TestingVC.swift */; };
 		A7F834C521B7C465009D0834 /* bookshelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F834C421B7C465009D0834 /* bookshelf.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		A74CA6C521B5CE90004E1BAC /* BookshelvesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookshelvesVC.swift; sourceTree = "<group>"; };
 		A74CA6C621B5CE90004E1BAC /* AddBookVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBookVC.swift; sourceTree = "<group>"; };
 		A7F0CF3621C8A0D20080E8F9 /* AddonClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddonClasses.swift; sourceTree = "<group>"; };
+		A7F0CF7421CA2FE30080E8F9 /* TestingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingVC.swift; sourceTree = "<group>"; };
 		A7F834C421B7C465009D0834 /* bookshelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bookshelf.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 				34D5D26F21A35C01001D7EE3 /* Info.plist */,
 				34E8908321A36F6B00119393 /* GoogleService-Info.plist */,
 				A7F0CF3621C8A0D20080E8F9 /* AddonClasses.swift */,
+				A7F0CF7421CA2FE30080E8F9 /* TestingVC.swift */,
 			);
 			path = notyourbookshelf;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				A7F834C521B7C465009D0834 /* bookshelf.swift in Sources */,
 				A7F0CF3721C8A0D20080E8F9 /* AddonClasses.swift in Sources */,
 				A74CA6C921B5CE90004E1BAC /* MeetupsVC.swift in Sources */,
+				A7F0CF7521CA2FE30080E8F9 /* TestingVC.swift in Sources */,
 				A74CA6C821B5CE90004E1BAC /* SearchVC.swift in Sources */,
 				A74CA6CB21B5CE90004E1BAC /* BookshelvesVC.swift in Sources */,
 				A74CA6CC21B5CE90004E1BAC /* AddBookVC.swift in Sources */,
