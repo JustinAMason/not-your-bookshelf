@@ -186,13 +186,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="260"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Bookshelf" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbT-LH-kq3" userLabel="&lt;title&gt;">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="28"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listings and Purchases" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wXx-IL-NdG" userLabel="&lt;subtitle&gt;">
-                                                <rect key="frame" x="0.0" y="33.5" width="343" height="14.5"/>
+                                                <rect key="frame" x="0.0" y="34" width="343" height="14"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -220,7 +220,7 @@
                                                                 <rect key="frame" x="15.5" y="0.0" width="312" height="120"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="OdQ-Db-7K6" userLabel="Your-books Stack View">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="120"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="120"/>
                                                                         <subviews>
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nB-qx-dZD" userLabel="&lt;add&gt;">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="120"/>
@@ -228,7 +228,7 @@
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="30" id="CaR-fc-z5z"/>
                                                                                 </constraints>
-                                                                                <state key="normal" title="+-">
+                                                                                <state key="normal" title="+">
                                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </state>
                                                                                 <userDefinedRuntimeAttributes>
@@ -238,37 +238,12 @@
                                                                                     <userDefinedRuntimeAttribute type="number" keyPath="textRotation">
                                                                                         <integer key="value" value="-90"/>
                                                                                     </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="contentEdgeInsets_constant">
-                                                                                        <integer key="value" value="5"/>
-                                                                                    </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
-                                                                            </button>
-                                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh2-sx-9SN" userLabel="&lt;long title&gt;">
-                                                                                <rect key="frame" x="32" y="0.0" width="30" height="120"/>
-                                                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
-                                                                                <state key="normal" title="super dooper wooper long title">
-                                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                </state>
-                                                                                <userDefinedRuntimeAttributes>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                                        <integer key="value" value="5"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="contentEdgeInsets_constant">
-                                                                                        <integer key="value" value="10"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="textRotation">
-                                                                                        <integer key="value" value="-90"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="contentTopBottomInsets">
-                                                                                        <integer key="value" value="7"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                </userDefinedRuntimeAttributes>
+                                                                                <connections>
+                                                                                    <segue destination="nlp-X8-TMW" kind="show" identifier="SegueToAddBook" id="tIs-lw-JM4"/>
+                                                                                </connections>
                                                                             </button>
                                                                         </subviews>
-                                                                        <constraints>
-                                                                            <constraint firstItem="yh2-sx-9SN" firstAttribute="width" secondItem="1nB-qx-dZD" secondAttribute="width" id="huf-75-vwg"/>
-                                                                        </constraints>
                                                                     </stackView>
                                                                 </subviews>
                                                                 <constraints>
@@ -310,13 +285,13 @@
                                         <rect key="frame" x="0.0" y="298.5" width="343" height="259.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Your Bookshelf" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k2-5b-chm" userLabel="&lt;title&gt;">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="28"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bookmarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7GW-eR-hwD" userLabel="&lt;subtitle&gt;">
-                                                <rect key="frame" x="0.0" y="33.5" width="343" height="14.5"/>
+                                                <rect key="frame" x="0.0" y="34" width="343" height="14"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -340,8 +315,17 @@
                                                                 <color key="textColor" name="bookshelfBrown"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="sxP-0b-fgl" userLabel="Books Scroll View">
+                                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sxP-0b-fgl" userLabel="Books Scroll View">
                                                                 <rect key="frame" x="15.5" y="0.0" width="312" height="120"/>
+                                                                <subviews>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="f64-zs-gc1" userLabel="Your-books Stack View">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="156" height="120"/>
+                                                                    </stackView>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="f64-zs-gc1" firstAttribute="height" secondItem="sxP-0b-fgl" secondAttribute="height" id="HTb-Eu-izV"/>
+                                                                    <constraint firstItem="f64-zs-gc1" firstAttribute="leading" secondItem="sxP-0b-fgl" secondAttribute="leading" id="L74-eo-Oj5"/>
+                                                                </constraints>
                                                             </scrollView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQg-NW-v8x" userLabel="&gt;">
                                                                 <rect key="frame" x="330.5" y="0.0" width="12.5" height="120"/>
@@ -383,6 +367,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Bookshelves" image="Literature" selectedImage="Literature" id="4cQ-TD-fz5"/>
                     <connections>
+                        <outlet property="addButton" destination="1nB-qx-dZD" id="ZZG-EJ-ZUL"/>
+                        <outlet property="stackViewNYB" destination="f64-zs-gc1" id="0Rv-cp-Nsy"/>
+                        <outlet property="stackViewYB" destination="OdQ-Db-7K6" id="S7w-K7-swN"/>
                         <segue destination="KIs-dp-Xlz" kind="show" identifier="SegueToYourBook" id="gkd-yA-514"/>
                         <segue destination="KIs-dp-Xlz" kind="show" identifier="SegueToNotYourBook" id="7fx-p5-RIT"/>
                     </connections>
@@ -696,7 +683,6 @@
                                 <state key="normal" title="Button" image="Bookmark_Unfilled"/>
                                 <connections>
                                     <action selector="favoriteListing" destination="KIs-dp-Xlz" eventType="touchUpInside" id="Iho-Jn-NUW"/>
-                                    <segue destination="nlp-X8-TMW" kind="show" identifier="SegueToEditYourBook" id="tN1-iC-47f"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0d-xr-Gr3">
@@ -737,6 +723,7 @@
                         <outlet property="optionButton" destination="D8l-Mi-VlR" id="LlQ-1T-M60"/>
                         <outlet property="priceAmtLabel" destination="5jN-NN-Sxb" id="PMr-P5-SHW"/>
                         <outlet property="titleLabel" destination="BpT-WV-vqx" id="zVQ-hD-Q7z"/>
+                        <segue destination="nlp-X8-TMW" kind="show" identifier="SegueToEditYourBook" id="1o4-s7-N4V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9V7-w7-Jj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -886,6 +873,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7fx-p5-RIT"/>
+        <segue reference="gkd-yA-514"/>
+        <segue reference="tIs-lw-JM4"/>
     </inferredMetricsTieBreakers>
 </document>

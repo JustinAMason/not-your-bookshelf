@@ -15,10 +15,9 @@ class BookshelvesVC: UIViewController {
     /**********
     * Outlets *
     ***********/
-    @IBOutlet weak var viewOfYourBookshelf: UIView!
-    @IBOutlet weak var viewOfNotYourBookshelf: UIView!
+    @IBOutlet weak var stackViewYB: UIStackView!
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var stackViewNYB: UIStackView!
-    //@IBOutlet weak var stackViewYB: UIStackView!
     
     /************
     * Firestore *
@@ -44,11 +43,10 @@ class BookshelvesVC: UIViewController {
     var userBooksPurchased: Array<Book> = []
     var selectedBookTag: Int = 0
     
-    var bookColors: [UIColor] = [UIColor.black]
-//    var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
-//                                 UIColor(named: "bookRed")!,
-//                                 UIColor(named: "bookGreen")!,
-//                                 UIColor(named: "bookPurple")!]
+    var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
+                                 UIColor(named: "bookRed")!,
+                                 UIColor(named: "bookGreen")!,
+                                 UIColor(named: "bookPurple")!]
     
     /************
     * Load Time * // calls viewLoadSetup so that everytime the user sees this VC, the bookshelves will reload -- ensures deleting, adding, bookmarking listings will be reflected
@@ -68,8 +66,8 @@ class BookshelvesVC: UIViewController {
         if isLoadingViewController {
             isLoadingViewController = false
         } else {
-            //yourBookshelf.removeAllArrangedSubviews()
-            //notYourBookshelf.removeAllArrangedSubviews()
+            stackViewYB.removeAlmostAllArrangedSubviews()
+            stackViewNYB.removeAllArrangedSubviews()
             viewLoadSetup()
         }
     }
@@ -80,7 +78,7 @@ class BookshelvesVC: UIViewController {
         userBookmarks = []
         userBooksBookmarked = []
         userPurchases = []
-        //populateBookshelves(user_id: user_id)
+        populateBookshelves(user_id: user_id)
     }
     
     /**********************
@@ -105,21 +103,26 @@ class BookshelvesVC: UIViewController {
         myButton.setTitle(title, for: .normal)
         myButton.setTitleColor(UIColor.white, for: .normal)
         myButton.setTitleShadowColor(UIColor.black, for: .normal)
+        myButton.titleLabel!.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        myButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
+        myButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        myButton.titleLabel!.lineBreakMode = NSLineBreakMode.byTruncatingTail
         myButton.layer.cornerRadius = 5
         myButton.showsTouchWhenHighlighted = true
+        myButton.textRotation = -90
         myButton.contentTopBottomInsets = 7
-        myButton.rotation = -90
         myButton.tag = indexOfBook // LISTING_ID -- MUST ACCESS THIS (INT), then USE TO ACCESS userListings[i].listing_id -- IN SEGUE
-        //myButton.clipsToBounds = true
-        //myButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let number = Int.random(in: 0 ..< self.bookColors.count)
         myButton.backgroundColor = self.bookColors[number]
+        myButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        //myButton.widthAnchor.constraint(equalTo: self.addButton.widthAnchor).isActive = true
         
         if isYourBook {
             myButton.addTarget(self, action: #selector(self.tapYourBook(sender:)), for: .touchUpInside)
         } else {
             myButton.addTarget(self, action: #selector(self.tapNotYourBook(sender:)), for: .touchUpInside)
         }
+        
         
         return myButton
     }
@@ -183,15 +186,12 @@ class BookshelvesVC: UIViewController {
         
         // 2 seconds later
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-            self.yourBookshelf = self.displayBookshelfOnView(view: self.viewOfYourBookshelf,
-                                                             books: self.userBooksListed,
-                                                             isYourBookshelf: true)
-//            if (!self.userListings.isEmpty) {
-//                self.addBooksToStackView(stack: self.stackViewYB, books: self.userBooksListed, areYourBooks: true)
-//            }
-//            if (!self.userBookmarks.isEmpty) {
-//                self.addBooksToStackView(stack: self.stackViewNYB, books: self.userBooksBookmarked, areYourBooks: false)
-//            }
+            self.displayBookshelfOnView(stackView: self.stackViewYB,
+                                        books: self.userBooksListed,
+                                        isYourBookshelf: true)
+            self.displayBookshelfOnView(stackView: self.stackViewNYB,
+                                        books: self.userBooksBookmarked,
+                                        isYourBookshelf: false)
         })
     }
     
@@ -294,68 +294,35 @@ class BookshelvesVC: UIViewController {
         
     }
     
-    func displayBookshelfOnView(view: UIView, books: Array<Book>, isYourBookshelf: Bool) -> UIStackView {
+    func displayBookshelfOnView(stackView: UIStackView, books: Array<Book>, isYourBookshelf: Bool) {
         print("\n**\nDisplaying Bookshelf...")
         //create book button array
-        var userBooksListedButtons = [UIButton]()
+        let stack = stackView
         print("\tisYourBookshelf \(isYourBookshelf), Number of Books: \(books.count)")
         for i in books.indices {
             let book = books[i]
-            userBooksListedButtons += [makeBookButtonWithInfo(title: book.title,
-                                                              indexOfBook: i,
-                                                              isYourBook: isYourBookshelf)]
+            let newBook = makeBookButtonWithInfo(title: book.title,
+                                                 indexOfBook: i,
+                                                 isYourBook: isYourBookshelf)
+            
+            var index = 0
+            if (isYourBookshelf) {
+                index = stack.arrangedSubviews.count - 1
+            }
+            
+            
+            newBook.isHidden = true
+            stack.insertArrangedSubview(newBook, at: index)
+            
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                newBook.isHidden = false
+            })
+            
             print("\t\t...added book with title = \(book.title!)")
         }
-
-        // Nested stack views
-        //set up the stack view
-        let subStackView = UIStackView(arrangedSubviews: userBooksListedButtons)
-        subStackView.axis = .horizontal
-        subStackView.distribution = .fillEqually
-        subStackView.alignment = .fill
-        subStackView.spacing = 5
-        //set up a label -- the bookshelf bottom
-        let label = UILabel()
-        label.text = ""
-        label.backgroundColor = UIColor.brown
-        //set up the nested stack view
-        let stackView = UIStackView(arrangedSubviews: [subStackView,label])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        //add stack view (bookshelf) on view
-        view.addSubview(stackView)
-        //autolayout the stack view - pin 30 up 20 left 20 right 30 down
-        let viewsDictionary = ["stackView":stackView]
-        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-60-[stackView]-55-|",
-                                                         options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-                                                         metrics: nil,
-                                                         views: viewsDictionary)
-        let stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-135-[stackView]-40-|",
-                                                         options: NSLayoutConstraint.FormatOptions(rawValue:0),
-                                                         metrics: nil,
-                                                         views: viewsDictionary)
-        view.addConstraints(stackView_H)
-        view.addConstraints(stackView_V)
         
-        return stackView
+        return
     }
-    
-//    func addBooksToStackView(stack: UIStackView, books: Array<Book>, areYourBooks: Bool) {
-//        print("\n**\nStacking Books...")
-//        print("\tareYourBooks: \(areYourBooks), Books: \(books.count)  ")
-//        for i in books.indices {
-//            let title = books[i].title
-//            let bookButton = self.makeBookButtonWithInfo(title: title!, indexOfBook: i, isYourBook: areYourBooks)
-//
-//            stack.addArrangedSubview(bookButton)
-//            print("\t\tBook: \(bookButton.titleLabel?.text ?? "(defaulted)")")
-//        }
-//
-//        // add spacer so books appear all to left
-//    }
     
     /******
     * End *
@@ -377,5 +344,21 @@ extension UIStackView {
         
         // Remove the views from self
         removedSubviews.forEach({ $0.removeFromSuperview() })
+    }
+    
+    func removeAlmostAllArrangedSubviews() {
+        //var removedSubviews = Array<UIView>()
+        let books = arrangedSubviews[..<(arrangedSubviews.count - 1)]
+        var i = 0
+        while arrangedSubviews.count > 1 {
+            self.removeArrangedSubview(books[i])
+            i += 1
+        }
+        
+        // Deactivate all constraints
+        NSLayoutConstraint.deactivate(books.flatMap({ $0.constraints }))
+        
+        // Remove the views from self
+        books.forEach({ $0.removeFromSuperview() })
     }
 }

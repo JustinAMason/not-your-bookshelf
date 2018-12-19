@@ -51,7 +51,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // If you need to delete listings, use this
         
-//        db.collection("favorites").document("2YalLBobdIkl4kTRoLN9").delete() { err in
+//        db.collection("listings").document("BCcoWIS0rZ62waUcaknG").delete() { err in
 //            if let err = err {
 //                print("Error removing document: \(err)")
 //            } else {

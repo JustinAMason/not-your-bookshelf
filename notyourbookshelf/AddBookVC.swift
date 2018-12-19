@@ -308,16 +308,6 @@ class AddBookVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         return true
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 /****************************
@@ -326,7 +316,7 @@ class AddBookVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
  
 extension AddBookVC: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
-        self.titleLabel.text = code
+        self.ISBNField.text = code
         searchByISBN()
         controller.dismiss(animated: true, completion: nil)
     }

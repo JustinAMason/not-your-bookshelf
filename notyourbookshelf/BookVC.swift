@@ -114,9 +114,7 @@ class BookVC: UIViewController {
     @IBAction func favoriteListing() {
         if (self.isYourBook) {
             print("Segueing")
-            // delete listing from Firebase
-            
-             presentedViewController?.performSegue(withIdentifier: "SegueToEditYourBook", sender: self)
+            self.performSegue(withIdentifier: "SegueToEditYourBook", sender: self)
         }
         else {
             print("Adding to Favorites")
