@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -186,13 +187,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="260"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Bookshelf" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbT-LH-kq3" userLabel="&lt;title&gt;">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="33.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="28"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listings and Purchases" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wXx-IL-NdG" userLabel="&lt;subtitle&gt;">
-                                                <rect key="frame" x="0.0" y="34" width="343" height="14"/>
+                                                <rect key="frame" x="0.0" y="33.5" width="343" height="14.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -285,13 +286,13 @@
                                         <rect key="frame" x="0.0" y="298.5" width="343" height="259.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Your Bookshelf" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k2-5b-chm" userLabel="&lt;title&gt;">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="33.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="28"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bookmarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7GW-eR-hwD" userLabel="&lt;subtitle&gt;">
-                                                <rect key="frame" x="0.0" y="34" width="343" height="14"/>
+                                                <rect key="frame" x="0.0" y="33.5" width="343" height="14.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -617,7 +618,11 @@
                                                 <action selector="backPress:" destination="KIs-dp-Xlz" id="GJF-Cj-dML"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Buy" id="8zq-ia-v9n"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Buy" id="8zq-ia-v9n">
+                                            <connections>
+                                                <action selector="buyPress:" destination="KIs-dp-Xlz" id="8VG-0I-UAk"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -682,7 +687,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="Button" image="Bookmark_Unfilled"/>
                                 <connections>
-                                    <action selector="favoriteListing" destination="KIs-dp-Xlz" eventType="touchUpInside" id="Iho-Jn-NUW"/>
+                                    <action selector="optionButtonPress" destination="KIs-dp-Xlz" eventType="touchUpInside" id="YmL-BO-z0e"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0d-xr-Gr3">
@@ -715,11 +720,11 @@
                     </view>
                     <connections>
                         <outlet property="authorLabel" destination="cbv-e3-cMx" id="5mH-1r-nVo"/>
+                        <outlet property="buyButton" destination="8zq-ia-v9n" id="1tn-x2-ebv"/>
                         <outlet property="conditionLabel" destination="Hre-bu-VFd" id="Rql-KT-5e6"/>
                         <outlet property="editionLabel" destination="iM4-F7-rme" id="x4x-zY-ogP"/>
                         <outlet property="meetupLabel" destination="Yhv-6a-bQC" id="flF-Bp-rFu"/>
                         <outlet property="navBar" destination="6DA-0S-EzN" id="NzW-UZ-7Gr"/>
-                        <outlet property="navBarRightButton" destination="8zq-ia-v9n" id="Tdd-fr-t0v"/>
                         <outlet property="optionButton" destination="D8l-Mi-VlR" id="LlQ-1T-M60"/>
                         <outlet property="priceAmtLabel" destination="5jN-NN-Sxb" id="PMr-P5-SHW"/>
                         <outlet property="titleLabel" destination="BpT-WV-vqx" id="zVQ-hD-Q7z"/>
@@ -874,6 +879,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gkd-yA-514"/>
-        <segue reference="tIs-lw-JM4"/>
+        <segue reference="1o4-s7-N4V"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -34,6 +34,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var db: Firestore!
     var listings: Array<Listing>!
     var curListingID: String = ""
+    var curSellerID: String = ""
     var curBookID: String = ""
     var curCondition: String = ""
     var curPrice: String = ""
@@ -51,7 +52,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // If you need to delete listings, use this
         
-//        db.collection("listings").document("BCcoWIS0rZ62waUcaknG").delete() { err in
+//        db.collection("purchases").document("ufWzLn8N1BNTLPeCGxME").delete() { err in
 //            if let err = err {
 //                print("Error removing document: \(err)")
 //            } else {
@@ -75,6 +76,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath as IndexPath) as! UITableViewCell;
         self.curListingID = listings[(indexPath[1])].listing_id
+        self.curSellerID = listings[(indexPath[1])].seller_id
         self.curBookID = listings[(indexPath[1])].book_id
         self.curCondition = listings[(indexPath[1])].condition
         self.curPrice = listings[(indexPath[1])].price
@@ -198,6 +200,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? BookVC
         vc?.listing_id = self.curListingID
+        vc?.seller_id = self.curSellerID
         vc?.book_id = self.curBookID
         vc?.bookTitle = self.bookTitle.text ?? ""
         vc?.author = self.bookAuthor.text

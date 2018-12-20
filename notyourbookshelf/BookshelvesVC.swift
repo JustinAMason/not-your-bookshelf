@@ -33,14 +33,14 @@ class BookshelvesVC: UIViewController {
     /******************
     * State Variables *
     *******************/
-    var yourBookshelf: UIStackView!
-    //var notYourBookshelf: UIScrollView!
     var userListings: Array<Listing> = []
-    var userBooksListed: Array<Book> = []
     var userBookmarks: Array<Listing> = []
-    var userBooksBookmarked: Array<Book> = []
     var userPurchases: Array<Listing> = []
+    
+    var userBooksListed: Array<Book> = []
+    var userBooksBookmarked: Array<Book> = []
     var userBooksPurchased: Array<Book> = []
+    
     var selectedBookTag: Int = 0
     
     var bookColors: [UIColor] = [UIColor(named: "bookOrange")!,
@@ -74,10 +74,13 @@ class BookshelvesVC: UIViewController {
     
     func viewLoadSetup(){
         userListings = []
-        userBooksListed = []
         userBookmarks = []
-        userBooksBookmarked = []
         userPurchases = []
+        
+        userBooksListed = []
+        userBooksBookmarked = []
+        userBooksPurchased = []
+        
         populateBookshelves(user_id: user_id)
     }
     
@@ -97,25 +100,34 @@ class BookshelvesVC: UIViewController {
     * Dynamic Book Buttons *
     ************************/
     
-    func makeBookButtonWithInfo(title:String, indexOfBook: Int, isYourBook: Bool) -> UIButton {
+    func makeBookButtonWithInfo(title:String, indexOfBook: Int, isYourBook: Bool, isYourPurchase: Bool) -> UIButton {
         let myButton = UIButton(type: UIButton.ButtonType.system)
         
         myButton.setTitle(title, for: .normal)
-        myButton.setTitleColor(UIColor.white, for: .normal)
-        myButton.setTitleShadowColor(UIColor.black, for: .normal)
         myButton.titleLabel!.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        myButton.titleLabel!.lineBreakMode = NSLineBreakMode.byTruncatingTail
+        
+        if isYourPurchase {
+            myButton.setTitleColor(UIColor.black, for: .normal)
+            myButton.setTitleShadowColor(UIColor.white, for: .normal)
+            myButton.backgroundColor = UIColor.lightGray
+            myButton.layer.borderColor = UIColor.black.cgColor
+            myButton.layer.borderWidth = CGFloat(1.0)
+        } else {
+            myButton.setTitleColor(UIColor.white, for: .normal)
+            myButton.setTitleShadowColor(UIColor.black, for: .normal)
+            let number = Int.random(in: 0 ..< self.bookColors.count) // randomly chooses color
+            myButton.backgroundColor = self.bookColors[number]
+        }
+        
         myButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
         myButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
-        myButton.titleLabel!.lineBreakMode = NSLineBreakMode.byTruncatingTail
         myButton.layer.cornerRadius = 5
         myButton.showsTouchWhenHighlighted = true
         myButton.textRotation = -90
         myButton.contentTopBottomInsets = 7
-        myButton.tag = indexOfBook // LISTING_ID -- MUST ACCESS THIS (INT), then USE TO ACCESS userListings[i].listing_id -- IN SEGUE
-        let number = Int.random(in: 0 ..< self.bookColors.count)
-        myButton.backgroundColor = self.bookColors[number]
+        myButton.tag = indexOfBook // for LISTING_ID -- MUST ACCESS THIS (INT), then USE TO ACCESS userListings[i].listing_id -- IN SEGUE
         myButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-        //myButton.widthAnchor.constraint(equalTo: self.addButton.widthAnchor).isActive = true
         
         if isYourBook {
             myButton.addTarget(self, action: #selector(self.tapYourBook(sender:)), for: .touchUpInside)
@@ -148,6 +160,7 @@ class BookshelvesVC: UIViewController {
             vc?.edition = self.userBooksListed[selectedBookTag].edition
             vc?.condition = self.userListings[selectedBookTag].condition
             vc?.listing_id = self.userListings[selectedBookTag].listing_id
+            vc?.seller_id = self.userListings[selectedBookTag].seller_id
             vc?.price = self.userListings[selectedBookTag].price
             vc?.latitude = self.userListings[selectedBookTag].latitude
             vc?.longitude = self.userListings[selectedBookTag].longitude
@@ -160,6 +173,7 @@ class BookshelvesVC: UIViewController {
             vc?.edition = self.userBooksBookmarked[selectedBookTag].edition
             vc?.condition = self.userBookmarks[selectedBookTag].condition
             vc?.listing_id = self.userBookmarks[selectedBookTag].listing_id
+            vc?.seller_id = self.userBookmarks[selectedBookTag].seller_id
             vc?.price = self.userBookmarks[selectedBookTag].price
             vc?.latitude = self.userListings[selectedBookTag].latitude
             vc?.longitude = self.userListings[selectedBookTag].longitude
@@ -175,23 +189,39 @@ class BookshelvesVC: UIViewController {
     func populateBookshelves(user_id: String) {
         queryUserListings(user_id: user_id)
         queryUserBookmarks(user_id: user_id)
+        queryUserPurchases(user_id: user_id)
         
         // 1 second later
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
             self.queryTitles(listings: self.userListings,
-                             areYourBooks: true)
+                             areYourBooks: true,
+                             areYourPurchases: false)
             self.queryTitles(listings: self.userBookmarks,
-                             areYourBooks: false)
+                             areYourBooks: false,
+                             areYourPurchases: false)
+            self.queryTitles(listings: self.userPurchases,
+                             areYourBooks: false,
+                             areYourPurchases: true)
         })
         
         // 2 seconds later
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             self.displayBookshelfOnView(stackView: self.stackViewYB,
                                         books: self.userBooksListed,
-                                        isYourBookshelf: true)
+                                        isYourBookshelf: true,
+                                        areYourPurchased: false)
             self.displayBookshelfOnView(stackView: self.stackViewNYB,
                                         books: self.userBooksBookmarked,
-                                        isYourBookshelf: false)
+                                        isYourBookshelf: false,
+                                        areYourPurchased: false)
+        })
+        
+        // 3 seconds later -- happens after 'your listed books' are added to 'stackViewYB' (your bookshelf) so that nothing weird happens if 'your purchased books' are added at the same time.
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+            self.displayBookshelfOnView(stackView: self.stackViewYB,
+                                        books: self.userBooksPurchased,
+                                        isYourBookshelf: true,
+                                        areYourPurchased: true)
         })
     }
     
@@ -234,14 +264,13 @@ class BookshelvesVC: UIViewController {
                     self.db.collection("listings").document(bookmark_id).getDocument { (document, error) in
                         if let document = document, document.exists {
                             let listing_id = document.documentID
-                            //print("\t\tbookmarkID: \(listing_id)")
                             let book_id = document["book_id"] as? String ?? ""
                             let seller_id = document["seller_id"] as? String ?? ""
                             let price = document["price"] as? String ?? ""
                             let condition = document["condition"] as? String ?? ""
                             let latitude = document["latitude"] as? String ?? ""
                             let longitude = document["longitude"] as? String ?? ""
-                            self.userBookmarks.append(Listing( listing_id: listing_id,
+                            self.userBookmarks.append(Listing(listing_id: listing_id,
                                                               book_id: book_id,
                                                               seller_id: seller_id,
                                                               price: price,
@@ -251,11 +280,8 @@ class BookshelvesVC: UIViewController {
                         } else {
                             print("\tBookmarked Listing does not exist...deleting bookmark")
                             self.db.collection("favorites").document(bookmark.documentID).delete(){ err in
-                                if let err = err {
-                                    print("Error removing bookmark: \(err)")
-                                } else {
-                                    print("Bookmark successfully removed!")
-                                }
+                                if let err = err { print("Error removing bookmark: \(err)") }
+                                else { print("Bookmark successfully removed!") }
                             }
                         }
                     }
@@ -264,7 +290,46 @@ class BookshelvesVC: UIViewController {
         }
     }
     
-    func queryTitles(listings: Array<Listing>, areYourBooks: Bool) {
+    func queryUserPurchases(user_id: String) {
+        db.collection("purchases").whereField("buyer_id", isEqualTo: user_id).getDocuments() { (querySnapshot, err) in
+            if let err = err { print("Error getting purchases: \(err)") }
+            else if (querySnapshot!.documents.count == 0) { print("\n**\nNo Purchases found for user_id = \(user_id)") }
+            else {
+                print("\n**\nPurchases(s) found for user_id = \(user_id)")
+                for purchase in querySnapshot!.documents {
+                    let listing_id = purchase["listing_id"] as? String ?? ""
+                    //let seller_id = purchase["seller_id"] as? String ?? "" // unused
+                    //let buyer_id = purchase["buyer_id"] as? String ?? "" // unused
+                    self.db.collection("listings").document(listing_id).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let listing_id = document.documentID
+                            let book_id = document["book_id"] as? String ?? ""
+                            let seller_id = document["seller_id"] as? String ?? ""
+                            let price = document["price"] as? String ?? ""
+                            let condition = document["condition"] as? String ?? ""
+                            let latitude = document["latitude"] as? String ?? ""
+                            let longitude = document["longitude"] as? String ?? ""
+                            self.userPurchases.append(Listing(listing_id: listing_id,
+                                                              book_id: book_id,
+                                                              seller_id: seller_id,
+                                                              price: price,
+                                                              condition: condition,
+                                                              latitude: latitude,
+                                                              longitude: longitude ) )
+                        } else {
+                            print("\tPurchased Listing does not exist...deleting purchase")
+                            self.db.collection("purchases").document(purchase.documentID).delete(){ err in
+                                if let err = err { print("Error removing purchase: \(err)") }
+                                else { print("Purchase successfully removed!") }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func queryTitles(listings: Array<Listing>, areYourBooks: Bool, areYourPurchases: Bool) {
         for i in listings.indices {
             let book_id = listings[i].book_id ?? ""
             
@@ -276,16 +341,21 @@ class BookshelvesVC: UIViewController {
                     let title = document["title"] as? String ?? "(empty)"
                     print("\tBook found with title = \(title)")
                     if (areYourBooks) {
-                        self.userBooksListed.append(Book( author: author,
-                                                          edition: edition,
-                                                          isbn: isbn,
-                                                          title: title ))
+                        self.userBooksListed.append(Book(author: author,
+                                                         edition: edition,
+                                                         isbn: isbn,
+                                                         title: title ))
                     }
-                    else {
-                        self.userBooksBookmarked.append(Book( author: author,
-                                                              edition: edition,
-                                                              isbn: isbn,
-                                                              title: title ))
+                    else if (areYourPurchases){
+                        self.userBooksPurchased.append(Book(author: author,
+                                                            edition: edition,
+                                                            isbn: isbn,
+                                                            title: title ))
+                    } else { // not your books or purchases -> your bookmarks
+                        self.userBooksBookmarked.append(Book(author: author,
+                                                             edition: edition,
+                                                             isbn: isbn,
+                                                             title: title ))
                     }
                 } else { print("Book does not exist") }
             }
@@ -294,7 +364,7 @@ class BookshelvesVC: UIViewController {
         
     }
     
-    func displayBookshelfOnView(stackView: UIStackView, books: Array<Book>, isYourBookshelf: Bool) {
+    func displayBookshelfOnView(stackView: UIStackView, books: Array<Book>, isYourBookshelf: Bool, areYourPurchased: Bool) {
         print("\n**\nDisplaying Bookshelf...")
         //create book button array
         let stack = stackView
@@ -303,7 +373,8 @@ class BookshelvesVC: UIViewController {
             let book = books[i]
             let newBook = makeBookButtonWithInfo(title: book.title,
                                                  indexOfBook: i,
-                                                 isYourBook: isYourBookshelf)
+                                                 isYourBook: isYourBookshelf && !areYourPurchased,
+                                                 isYourPurchase: areYourPurchased)
             
             var index = 0
             if (isYourBookshelf) {

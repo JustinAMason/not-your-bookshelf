@@ -14,14 +14,14 @@ class BookVC: UIViewController {
     var db: Firestore!
     
     @IBOutlet weak var navBar: UINavigationItem!
-    @IBOutlet weak var navBarRightButton: UIBarButtonItem!
+    @IBOutlet weak var buyButton: UIBarButtonItem!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var editionLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var meetupLabel: UILabel!
-    @IBOutlet weak var optionButton: UIButton!
     @IBOutlet weak var priceAmtLabel: UILabel!
+    @IBOutlet weak var optionButton: UIButton!
     
     /************
      * User Info * // HARD CODED
@@ -33,6 +33,7 @@ class BookVC: UIViewController {
     * Variables *
     ************/
     var listing_id: String!
+    var seller_id: String!
     var book_id: String!
     var bookTitle: String!
     var author: String!
@@ -67,14 +68,14 @@ class BookVC: UIViewController {
         // Determine if Your Book or Not Your Book -- Set title, enable/disable Buy button, enable/disable bookmark or edit
         if (self.isYourBook) {
             navBar.title = "Your Book"
-            navBarRightButton.isEnabled = false
+            buyButton.isEnabled = false
             optionButton.isEnabled = true
             optionButton.setImage(UIImage(named: "Edit_Unfilled"), for: UIControl.State.normal);
             optionButton.setImage(UIImage(named: "Edit_Filled"), for: UIControl.State.highlighted);
         }
         else {
             navBar.title = "Not Your Book"
-            navBarRightButton.isEnabled = true
+            buyButton.isEnabled = true
             optionButton.isEnabled = true
             optionButton.setImage(UIImage(named: "Bookmark_Unfilled"), for: UIControl.State.normal)
             //optionButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.highlighted);
@@ -82,12 +83,58 @@ class BookVC: UIViewController {
     }
     
     
-    /*************
-    * Back Press *
-    *************/
+    /*******************
+    * Back & Buy Press *
+    *******************/
     
     @IBAction func backPress(_ sender: Any) {
         presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func buyPress(_ sender: Any) {
+        print("Checking purchases...")
+        //check if listing already purchased by the user, if so, do nothing.
+        //else, add to purchased, check if in bookmarks (if so, remove it), dismiss VC
+        db.collection("purchases")
+            .whereField("listing_id", isEqualTo: self.listing_id)
+            .whereField("buyer_id", isEqualTo: self.user_id)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error in checking purchases: \(err)");
+                } else if (querySnapshot!.documents.count == 1) {
+                    print("Listing = \(self.listing_id!) already purchased by user = \(self.user_id)")
+                    return
+                } else if (querySnapshot!.documents.count == 0) {
+                    print("Adding to Purchases...")
+                    // if in favorites, remove
+                    self.db.collection("favorites")
+                        .whereField("user_id", isEqualTo: self.user_id)
+                        .whereField("listing_id", isEqualTo: self.listing_id)
+                        .getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print("Error checking bookmarks: \(err)");
+                            } else if (querySnapshot!.documents.count == 1){
+                                print("Removing Bookmark");
+                                self.removeBookmarkInDatabase(document_id: querySnapshot!.documents[0].documentID);
+                            } else {
+                                print("Listing not Bookmarked");
+                            }
+                    }
+                    // add to purchases
+                    self.db.collection("purchases").addDocument(data: [
+                        "listing_id": self.listing_id,
+                        "buyer_id": self.user_id,
+                        "seller_id": self.seller_id
+                    ]) { err in
+                        if let err = err { print("Error adding purchase doc: \(err)") }
+                        else {
+                            print("Purchase added to database!")
+                            self.presentingViewController?.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+        }
+        
     }
     
     
@@ -111,38 +158,51 @@ class BookVC: UIViewController {
         }
     }
     
-    @IBAction func favoriteListing() {
+    @IBAction func optionButtonPress() {
+        // option: Edit
         if (self.isYourBook) {
             print("Segueing")
             self.performSegue(withIdentifier: "SegueToEditYourBook", sender: self)
         }
-        else {
-            print("Adding to Favorites")
+        else { // option: Bookmark
+            print("Toggling Bookmark...")
             db.collection("favorites")
-            .whereField("user_id", isEqualTo: self.user_id)
-            .whereField("listing_id", isEqualTo: listing_id)
-            .getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)");
-                } else if (querySnapshot!.documents.count == 0) {
-                    self.addFavoriteToDatabase();
-                } else {
-                    print("Favorite already stored in database")
+                .whereField("user_id", isEqualTo: self.user_id)
+                .whereField("listing_id", isEqualTo: listing_id)
+                .getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error checking bookmarks: \(err)");
+                    } else if (querySnapshot!.documents.count == 0) {
+                        self.addBookmarkToDatabase();
+                    } else if (querySnapshot!.documents.count == 1){
+                        print("Favorite already stored in database");
+                        self.removeBookmarkInDatabase(document_id: querySnapshot!.documents[0].documentID);
+                    }
                 }
-            }
         }
     }
     
-    func addFavoriteToDatabase() {
+    func addBookmarkToDatabase() {
+        print("Adding to Bookmarks...")
         db.collection("favorites").addDocument(data: [
             "user_id": self.user_id,
             "listing_id": self.listing_id
         ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
+            if let err = err { print("Error adding document: \(err)") }
+            else {
                 print("Favorite added to database!")
                 self.optionButton.setImage(UIImage(named: "Bookmark_Filled"), for: UIControl.State.normal);
+            }
+        }
+    }
+    
+    func removeBookmarkInDatabase(document_id: String) {
+        print("Removing from Bookmarks...")
+        db.collection("favorites").document(document_id).delete(){ err in
+            if let err = err { print("Error removing bookmark: \(err)") }
+            else {
+                print("Bookmark successfully removed!")
+                self.optionButton.setImage(UIImage(named: "Bookmark_Unfilled"), for: UIControl.State.normal);
             }
         }
     }
